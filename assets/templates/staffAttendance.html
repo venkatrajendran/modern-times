@@ -1,0 +1,105 @@
+<div class="row page-titles">
+    <div class="col-md-6 col-8 align-self-center">
+        <h3 class="text-themecolor m-b-0 m-t-0">{{phrase.staffAttendance}}</h3>
+    </div>
+    <div class="col-md-6 col-4 align-self-center">
+
+    </div>
+</div>
+
+<div class="row" ng-show="views.list">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-block">
+                <h4 class="card-title">{{phrase.selectAttendance}}</h4>
+                <div class="form">
+
+                    <form class="form-horizontal" ng-submit="startAttendance()" name="attendance" novalidate>
+                        <div class="form-group row" style="z-index: 999999999;" ng-class="{'has-error': attendance.attendanceDay.$invalid}">
+                            <label class="col-sm-2 text-right control-label col-form-label">{{phrase.Date}} *</label>
+                            <div class="col-sm-10">
+                                <input type="text" date-picker name="attendanceDay" ng-model="form.attendanceDay" id="datemask" class="form-control datemask" required>
+                            </div>
+                        </div>
+                        <div class="form-group row m-b-0">
+                            <div class="offset-sm-2 col-sm-10">
+                                <button type="submit" class="btn btn-info waves-effect waves-light m-t-10" ng-disabled="attendance.$invalid">{{phrase.controlAttendance}}</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" ng-show="views.lists">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-block">
+                <button class="btn btn-danger btn-sm pull-right" type="button" ng-click="changeView('list')"> {{phrase.Return}}</button>
+                <h4 class="card-title">Staff Attendance - {{phrase.Date}} : {{form.attendanceDay}}</h4>
+                <div class="form">
+
+                    <form class="form-horizontal" ng-submit="saveAttendance()" name="form" novalidate>
+                        <table class="table table-bordered table-hover">
+                            <tbody>
+                                <tr>
+                                    <th>{{phrase.teacher}}</th>
+                                    <th>{{phrase.Attendance}}</th>
+                                </tr>
+                                <tr>
+                                    <td>Select All</td>
+                                    <td>
+                                        <input type="button" ng-click="selectAll(1)" class="btn btn-info btn-sm" value="{{phrase.Present}}">
+                                        <input type="button" ng-click="selectAll(0)" class="btn btn-info btn-sm" value="{{phrase.Absent}}">
+                                        <input type="button" ng-click="selectAll(2)" class="btn btn-info btn-sm" value="{{phrase.Late}}">
+                                        <input type="button" ng-click="selectAll(3)" class="btn btn-info btn-sm" value="{{phrase.LateExecuse}}">
+                                    </td>
+                                </tr>
+                                <tr ng-repeat="teacher in teachers | object2Array | orderBy:'studentRollId'">
+                                    <td>{{teacher.name}}</td>
+                                    <td>
+                                        <div>
+                                            <div class="radio-list" ng-show="teacher.vacation">
+                                                Vacation requested :
+                                                <label>
+                                                    <input type="radio" ng-model="teacher.vacationStat" value="1"> {{phrase.acceptedVacation}}
+                                                </label>
+                                                <label>
+                                                    <input type="radio" ng-model="teacher.vacationStat" value="0"> {{phrase.rejectedVacation}}
+                                                </label>
+                                            </div>
+                                            <div class="radio-list" ng-show="!teacher.vacation || teacher.vacationStat == '0'">
+                                                <label>
+                                                    <input type="radio" ng-model="teacher.attendance" value="1"> {{phrase.Present}}
+                                                </label>
+                                                <label>
+                                                    <input type="radio" ng-model="teacher.attendance" value="0"> {{phrase.Absent}}
+                                                </label>
+                                                <label>
+                                                    <input type="radio" ng-model="teacher.attendance" value="2"> {{phrase.Late}}
+                                                </label>
+                                                <label>
+                                                    <input type="radio" ng-model="teacher.attendance" value="3"> {{phrase.LateExecuse}}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-info waves-effect waves-light m-t-10">{{phrase.saveAttendance}}</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
