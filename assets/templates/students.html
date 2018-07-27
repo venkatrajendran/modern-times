@@ -8,6 +8,11 @@
 </div>
 
 <div class="row" ng-show="views.list">
+    <style>
+        .dropdown-menu{
+            min-width: 19rem !important;
+        }
+    </style>
     <div class="col-0 hidden advSearch">
         <div class="card card-outline-info">
             <div class="card-header">
@@ -148,6 +153,8 @@
                                             <a class="dropdown-item" ng-click="marksheet(student.id)"><i class="fa fa-table"></i> {{phrase.Marksheet}}</a>
                                             <a class="dropdown-item" ng-if="userRole == 'admin' && (student.isLeaderBoard == '' || student.isLeaderBoard == null)" ng-click="leaderBoard(student.id,$index)"><i class="fa fa-trophy"></i> {{phrase.leaderboard}}</a>
                                             <a class="dropdown-item" ng-if="userRole == 'admin'" ng-click="medicalRead(student.id)"><i class="fa fa-stethoscope"></i> {{phrase.medHistory}}</a>
+                                            <a class="dropdown-item" ng-if="userRole == 'admin'" ng-click="transferRead(student.id)"><i class="fa fa-print"></i> Transfer Certificate</a>
+                                            <a class="dropdown-item" ng-if="userRole == 'admin'" ng-click="bonafideRead(student.id)"><i class="fa fa-print"></i> Bonafide and Conduct Certificate</a>
                                             <!--<a class="dropdown-item" ng-if="userRole == 'admin'" ng-click="edit(student.id)"><i class="fa fa-pencil"></i> {{phrase.Edit}}</a>
                                             <a class="dropdown-item" ng-if="userRole == 'admin'" ng-click="remove(student,$index)"><i class="fa fa-trash-o"></i> {{phrase.Remove}}</a>-->
                                         </div>
@@ -473,6 +480,132 @@
 
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">Date of Admission</label>
+                            <div class="col-sm-10">
+                                <input type="text"  date-picker name="doa" class="form-control datemask" ng-model="form.doa">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">Bank Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="bankName" class="form-control" ng-model="form.bankName">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">Account Holder Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="accountHolderName" class="form-control" ng-model="form.accountHolderName">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">Account Number</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="accountNumber" class="form-control" ng-model="form.accountNumber">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">IFSC Code</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="ifscCode" class="form-control" ng-model="form.ifscCode">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">Bank Branch</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="bankBranch" class="form-control" ng-model="form.bankBranch">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">Nationality</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="nationality" class="form-control" ng-model="form.nationality">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">Religion</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="religion" class="form-control" ng-model="form.religion">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">Caste</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="caste" class="form-control" ng-model="form.caste">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">Community</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="community" class="form-control" ng-model="form.community">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">Blood Group</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="bloodGroup" class="form-control" ng-model="form.bloodGroup">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">Personal Marks of Identification</label>
+                            <div class="col-sm-10">
+                                <textarea type="text" name="personalMarksIndentification" ng-model="form.personalMarksIndentification" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">Medical History</label>
+                            <div class="col-sm-10">
+                                <textarea type="text" name="medicalHistory" ng-model="form.medicalHistory" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">Class Admitted when joining School</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="classAdmitted" class="form-control" ng-model="form.classAdmitted">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">Courses Offered (Only for XI/XII standard)</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="courseOffered" class="form-control" ng-model="form.courseOffered">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">Subjects Offered</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="subjectsOffered" class="form-control" ng-model="form.subjectsOffered">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">Medium of Study</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="mediumStudy" class="form-control" ng-model="form.mediumStudy">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">EMIS Number</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="emisNumber" class="form-control" ng-model="form.emisNumber">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">TMR Code</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="tmrCode" class="form-control" ng-model="form.tmrCode">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">Register Number</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="registerNumber" class="form-control" ng-model="form.registerNumber">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">Secondary Phone Number</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="secondaryPhone" class="form-control" ng-model="form.secondaryPhone">
+                            </div>
+                        </div>
                         <div class="form-group m-b-0">
                             <div class="offset-sm-2 col-sm-10">
                                 <button type="submit" class="btn btn-info waves-effect waves-light" ng-disabled="addAdmin.$invalid">{{phrase.addStudent}}</button>
@@ -656,6 +789,132 @@
 
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">Date of Admission</label>
+                            <div class="col-sm-10">
+                                <input type="text"  date-picker name="doa" class="form-control datemask" ng-model="form.doa">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">Bank Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="bankName" class="form-control" ng-model="form.bankName">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">Account Holder Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="accountHolderName" class="form-control" ng-model="form.accountHolderName">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">Account Number</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="accountNumber" class="form-control" ng-model="form.accountNumber">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">IFSC Code</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="ifscCode" class="form-control" ng-model="form.ifscCode">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">Bank Branch</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="bankBranch" class="form-control" ng-model="form.bankBranch">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">Nationality</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="nationality" class="form-control" ng-model="form.nationality">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">Religion</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="religion" class="form-control" ng-model="form.religion">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">Caste</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="caste" class="form-control" ng-model="form.caste">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">Community</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="community" class="form-control" ng-model="form.community">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">Blood Group</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="bloodGroup" class="form-control" ng-model="form.bloodGroup">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">Personal Marks of Identification</label>
+                            <div class="col-sm-10">
+                                <textarea type="text" name="personalMarksIndentification" ng-model="form.personalMarksIndentification" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">Medical History</label>
+                            <div class="col-sm-10">
+                                <textarea type="text" name="medicalHistory" ng-model="form.medicalHistory" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">Class Admitted when joining School</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="classAdmitted" class="form-control" ng-model="form.classAdmitted">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">Courses Offered (Only for XI/XII standard)</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="courseOffered" class="form-control" ng-model="form.courseOffered">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">Subjects Offered</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="subjectsOffered" class="form-control" ng-model="form.subjectsOffered">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">Medium of Study</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="mediumStudy" class="form-control" ng-model="form.mediumStudy">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">EMIS Number</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="emisNumber" class="form-control" ng-model="form.emisNumber">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">TMR Code</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="tmrCode" class="form-control" ng-model="form.tmrCode">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">Register Number</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="registerNumber" class="form-control" ng-model="form.registerNumber">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-right control-label col-form-label">Secondary Phone Number</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="secondaryPhone" class="form-control" ng-model="form.secondaryPhone">
+                            </div>
+                        </div>
                         <div class="form-group m-b-0">
                             <div class="offset-sm-2 col-sm-10">
                                 <button type="submit" class="btn btn-info waves-effect waves-light" ng-disabled="editDorm.$invalid">{{phrase.editStudent}}</button>
@@ -831,6 +1090,340 @@
                     </form>
 
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" ng-show="views.transfer">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-block">
+                <a ng-click="changeView('list')" class="btn pull-right btn-danger card-block-input-item">{{phrase.Return}}</a>
+                <h4 class="card-title">Transfer Certificate</h4>
+                <form class="form" name="editDorm" method="post" target="_blank" action="tc_print.php"  ng-submit="changeView('list')">
+                        <div class="row">
+                            <div class="col-md-12 row">
+                                <div class="form-group col-md-2">
+                                    <label class="control-label col-form-label">TC No</label>
+                                    <div>
+                                        <input required type="text" name="tcno" ng-model="transferInfo.data.tcno" class="col-sm-12  form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label class="control-label col-form-label">Admn. No.</label>
+                                    <div>
+                                        <input required type="text" name="studentRollId" ng-model="transferInfo.data.studentRollId" class="col-sm-12 form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label class="control-label col-form-label">TMR Code No.</label>
+                                    <div>
+                                        <input required type="text" name="tmrCode" ng-model="transferInfo.data.tmrCode" class="col-sm-12 form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label class="control-label col-form-label">Register No.</label>
+                                    <div>
+                                        <input required type="text" name="registerNumber" ng-model="transferInfo.data.registerNumber" class="col-sm-12 form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label class="control-label col-form-label">Certificate No.</label>
+                                    <div>
+                                        <input required type="text" name="certificate" ng-model="transferInfo.data.certificate" class="col-sm-12 form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label class="control-label col-form-label">EMIS No.</label>
+                                    <div>
+                                        <input required type="text" name="emisNumber" ng-model="transferInfo.data.emisNumber" class="col-sm-12 form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">Name of the School</label>
+                                    <div class="col-sm-9">
+                                        <input required type="text" name="schoolname" ng-model="transferInfo.data.schoolname" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">Name of the Educational District </label>
+                                    <div class="col-sm-9">
+                                        <input required type="text" name="schoolcity" ng-model="transferInfo.data.schoolcity" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">Name of the Revenve District</label>
+                                    <div class="col-sm-9">
+                                        <input required type="text" name="revenuedistrict" ng-model="transferInfo.data.revenuedistrict" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">Name of the Pupil </label>
+                                    <div class="col-sm-9">
+                                        <input required type="text" name="fullName" ng-model="transferInfo.data.fullName" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">Name of the Father or Mother of the Pupil </label>
+                                    <div class="col-sm-9">
+                                        <input required type="text" name="parent" ng-model="transferInfo.data.parent" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">Nationality, Religion and Caste</label>
+                                    <div class="col-sm-9">
+                                        <input required type="text" name="nationality" ng-model="transferInfo.data.nationality" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">Community</label>
+                                    <div class="col-sm-9">
+                                        <input required type="text" name="community" ng-model="transferInfo.data.community" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">Sex </label>
+                                    <div class="col-sm-9">
+                                        <input required type="text" name="gender" ng-model="transferInfo.data.gender" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">Date of Birth as entered in the admission register is figures and words</label>
+                                    <div class="col-sm-9">
+                                        <input required type="text" name="birthday" ng-model="transferInfo.data.birthday" date-picker class="form-control datemask">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">Personal Marks of Identification</label>
+                                    <div class="col-sm-9">
+                                        <textarea required type="text" name="personalMarksIndentification" ng-model="transferInfo.data.personalMarksIndentification" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">Date if admission and standard in which he/she was admitted</label>
+                                    <div class="col-sm-9">
+                                        <input required type="text" name="doa" ng-model="transferInfo.data.doa" date-picker class="form-control datemask">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">Standard in which the pupil was studying at the time of leaving</label>
+                                    <div class="col-sm-9">
+                                        <input required type="text" name="studentClass" ng-model="transferInfo.data.studentClass" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">The course offered i.e.<br><b>General Education / Vocational Education</b></label>
+                                    <div class="col-sm-9">
+                                        <input required type="text" name="courseOffered" ng-model="transferInfo.data.courseOffered" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">In the case of General Education the subjects offered under Part III Group A & Meduim of instruction</label>
+                                    <div class="col-sm-9">
+                                        <input required type="text" name="offeredGroupA" ng-model="transferInfo.data.subjectsOffered" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">In the case of Vocational Education, the Vocational subject under Part III Group B and the related subject offered under Part III Group A</label>
+                                    <div class="col-sm-9">
+                                        <input required type="text" name="offeredGroupB" ng-model="transferInfo.data.subjectsVocational" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">Language offered under Part I </label>
+                                    <div class="col-sm-9">
+                                        <input required type="text" name="languagePart1" ng-model="transferInfo.data.languagePart1" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">Medium of Study</label>
+                                    <div class="col-sm-9">
+                                        <input required type="text" name="mediumofStudy" ng-model="transferInfo.data.mediumofStudy" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">Whether qualified for promotion to higher standard</label>
+                                    <div class="col-sm-9">
+                                        <input required type="text" name="qualified" ng-model="transferInfo.data.qualified" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">Whether the pupil has paid all the fees due to the school</label>
+                                    <div class="col-sm-9">
+                                        <input required type="text" name="duefee" ng-model="transferInfo.data.duefee" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">Whether the pupil was in receipt of any scholarship (Nature of Scholarship to be specified)</label>
+                                    <div class="col-sm-9">
+                                        <input required type="text" name="scholarship" ng-model="transferInfo.data.scholarship" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">Whether the pupil has undergone Medical Inspection during the academic year (first or repeat to be specified)</label>
+                                    <div class="col-sm-9">
+                                        <input required type="text" name="medical" ng-model="transferInfo.data.medical" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">Date on which the pupil actually left the school</label>
+                                    <div class="col-sm-9">
+                                        <input required type="text" name="left" date-picker ng-model="transferInfo.data.left" class="form-control datemask">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">The pupil's conduct and character</label>
+                                    <div class="col-sm-9">
+                                        <input required type="text" name="conduct" ng-model="transferInfo.data.conduct" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">Date on which application for Transfer Certificate was made on behalf of the pupil by the parent of guardian</label>
+                                    <div class="col-sm-9">
+                                        <input required type="text" name="applicationdate" date-picker ng-model="transferInfo.data.applicationdate" class="form-control datemask">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">Date of the Transfer Certificate</label>
+                                    <div class="col-sm-9">
+                                        <input required type="text" name="datetc" date-picker ng-model="transferInfo.data.datetc" class="form-control datemask">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">Academic Year(s)</label>
+                                    <div class="col-sm-9">
+                                        <input required type="text" name="academic" ng-model="transferInfo.data.academic" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">Standard(s) Studied</label>
+                                    <div class="col-sm-9">
+                                        <input required type="text" name="studentStudied" ng-model="transferInfo.data.studentClass" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">First Language</label>
+                                    <div class="col-sm-9">
+                                        <input required type="text" name="firstLanguage" ng-model="transferInfo.data.mediumStudy" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">Medium of Instruction</label>
+                                    <div class="col-sm-9">
+                                        <input required type="text" name="mediumInstruction" ng-model="transferInfo.data.mediumInstruction" class="form-control">
+                                    </div>
+                                </div>
+                                <input type="hidden" name="photo" ng-model="transferInfo.data.photo" value="{{transferInfo.data.photo}}" class="form-control">
+                                <input type="hidden" name="schoolzipcode" ng-model="transferInfo.data.schoolzipcode" value="{{transferInfo.data.schoolzipcode}}" class="form-control">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label"></label>
+                                    <div class="col-sm-9">
+                                        <button type="submit" class="btn btn-primary pull-right">Print</button>
+                                          <a ng-click="changeView('list')" class="btn pull-right btn-danger card-block-input-item">{{phrase.Return}}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" ng-show="views.bonafide">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-block">
+                <a ng-click="changeView('list')" class="btn pull-right btn-danger card-block-input-item">{{phrase.Return}}</a>
+                <h4 class="card-title">bonafide Certificate</h4>
+                <form class="form" name="editDorm" method="post" target="_blank" action="bonafide_print.php"  ng-submit="changeView('list')">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <label class="col-sm-3 text-right control-label col-form-label">Name of the School</label>
+                                <div class="col-sm-9">
+                                    <input required type="text" name="schoolname" ng-model="bonafideInfo.data.schoolname" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-3 text-right control-label col-form-label">Address</label>
+                                <div class="col-sm-9">
+                                    <input required type="text" name="schooladdress" ng-model="bonafideInfo.data.schooladdress" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-3 text-right control-label col-form-label">Name of the Educational District </label>
+                                <div class="col-sm-9">
+                                    <input required type="text" name="schoolcity" ng-model="bonafideInfo.data.schoolcity" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-3 text-right control-label col-form-label">Admn. No.</label>
+                                <div class="col-sm-9">
+                                    <input required type="text" name="studentRollId" ng-model="bonafideInfo.data.studentRollId" class="col-sm-12 form-control">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-3 text-right control-label col-form-label">Name of the Pupil </label>
+                                <div class="col-sm-9">
+                                    <input required type="text" name="fullName" ng-model="bonafideInfo.data.fullName" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-3 text-right control-label col-form-label">Name of the Father or Mother of the Pupil </label>
+                                <div class="col-sm-9">
+                                    <input required type="text" name="parent" ng-model="bonafideInfo.data.parent" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-3 text-right control-label col-form-label">Standard(s) Studing</label>
+                                <div class="col-sm-9">
+                                    <input required type="text" name="studentStudied" ng-model="bonafideInfo.data.studentClass" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-3 text-right control-label col-form-label">Section</label>
+                                <div class="col-sm-9">
+                                    <input required type="text" name="studentStudied" ng-model="bonafideInfo.data.studentSection" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-3 text-right control-label col-form-label">Academic Year(s)</label>
+                                <div class="col-sm-9">
+                                    <input required type="text" name="academic" ng-model="bonafideInfo.data.academic" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-3 text-right control-label col-form-label">Community</label>
+                                <div class="col-sm-9">
+                                    <input required type="text" name="community" ng-model="bonafideInfo.data.community" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-3 text-right control-label col-form-label">Date of Birth as entered in the admission register is figures and words</label>
+                                <div class="col-sm-9">
+                                    <input required type="text" name="birthday" ng-model="bonafideInfo.data.birthday" date-picker class="form-control datemask">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-3 text-right control-label col-form-label"></label>
+                                <div class="col-sm-9">
+                                    <button type="submit" class="btn btn-primary pull-right">Print</button>
+                                    <a ng-click="changeView('list')" class="btn pull-right btn-danger card-block-input-item">{{phrase.Return}}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
