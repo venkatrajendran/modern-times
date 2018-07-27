@@ -150,6 +150,8 @@ Route::group( array('middleware'=>'web') ,function(){
     Route::post('/students/acYear/delete/{student}/{id}','StudentsController@acYearRemove');
     Route::post('/students/delete/{id}','StudentsController@delete');
 	Route::post('/students/{id}','StudentsController@edit');
+	Route::get('/students/transfer/{id}','StudentsController@transfer');
+    Route::get('/students/bonafide/{id}','StudentsController@bonafide');
 
 	//Parents
 	Route::get('/parents/search/{student}','ParentsController@searchStudents');
