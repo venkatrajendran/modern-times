@@ -370,6 +370,7 @@ class ParentsController extends Controller {
 		$User->phoneNo = \Input::get('phoneNo');
 		$User->mobileNo = \Input::get('mobileNo');
 		$User->adhar = \Input::get('adhar');
+        $User->annualIncome = \Input::get('annualIncome');
 		if(\Input::get('birthday') != ""){
 			$User->birthday = $this->panelInit->date_to_unix(\Input::get('birthday'));
 		}
@@ -422,6 +423,7 @@ class ParentsController extends Controller {
 		$User->phoneNo = \Input::get('phoneNo');
 		$User->mobileNo = \Input::get('mobileNo');
 		$User->adhar = \Input::get('adhar');
+        $User->annualIncome = \Input::get('annualIncome');
 		if(\Input::get('birthday') != ""){
 			$User->birthday = $this->panelInit->date_to_unix(\Input::get('birthday'));
 		}
