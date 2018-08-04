@@ -88,9 +88,9 @@
                             <td class="font-weight-bold"><?php echo $_REQUEST['tcno']; ?></td>
                             <td class="font-weight-bold"><?php echo $_REQUEST['studentRollId']; ?></td>
                             <td class="font-weight-bold"><?php echo $_REQUEST['tmrCode']; ?></td>
-                            <td class="font-weight-bold"><?php echo $_REQUEST['registerNumber']; ?></td>
+                            <td class="font-weight-bold"><?php echo $_REQUEST['registerNo']; ?></td>
                             <td class="font-weight-bold"><?php echo $_REQUEST['certificate']; ?></td>
-                            <td class="font-weight-bold"><?php echo $_REQUEST['emisNumber']; ?></td>
+                            <td class="font-weight-bold"><?php echo $_REQUEST['emisNo']; ?></td>
                         </tr>
                         </tbody>
                     </table>
@@ -183,13 +183,13 @@
                     <div class="col-1" style="text-align: center">8</div>
                     <div class="col-4">Personal Marks of Identification</div>
                     <div class="col-1" style="text-align: center">:</div>
-                    <div class="col-6"><?php echo strtoupper(nl2br($_REQUEST['personalMarksIndentification'])); ?></div>
+                    <div class="col-6"><?php echo strtoupper(nl2br($_REQUEST['identificationMarks'])); ?></div>
                 </div>
                 <div class="row col-12">
                     <div class="col-1" style="text-align: center">9</div>
                     <div class="col-4">Date of admission and standard in which he was admitted</div>
                     <div class="col-1" style="text-align: center">:</div>
-                    <div class="col-6"><?php echo strtoupper($_REQUEST['doa']); ?>; <?php echo strtoupper($_REQUEST['studentStudied']); ?></div>
+                    <div class="col-6"><?php echo strtoupper($_REQUEST['admissionDate']); ?>; <?php echo strtoupper($_REQUEST['studentStudied']); ?></div>
                 </div>
                 <div class="row col-12">
                     <div class="col-1" style="text-align: center">10</div>
