@@ -54,7 +54,7 @@
                     <div class="form-group" ng-show="$root.dashboardData.enableSections == '1'">
                         <label>{{phrase.section}}</label>
                         <select class="form-control" ng-model="searchInput.section" ng-required="$root.dashboardData.enableSections == '1'" name="studentSection">
-                            <option ng-repeat="sec  tion in sections" value="{{section.id}}">{{section.sectionName}} - {{section.sectionTitle}}</option>
+                            <option ng-repeat="section in sections" value="{{section.id}}">{{section.sectionName}} - {{section.sectionTitle}}</option>
                         </select>
                     </div>
                     <div class="form-group m-b-0">
@@ -340,275 +340,529 @@
                 <h4 class="card-title">{{phrase.addStudent}}</h4>
                 <div class="form">
 
-                    <form class="form" ng-upload="saveAdd(content)" method="post" action="index.php/students" name="addAdmin" role="form" novalidate>
-                        <div class="form-group row" ng-class="{'has-error': addAdmin.fullName.$invalid}">
-                            <label class="col-sm-2 text-right control-label col-form-label">{{phrase.FullName}} * </label>
-                            <div class="col-sm-10">
-                                <input type="text" name="fullName" ng-model="form.fullName" class="form-control" required placeholder="{{phrase.FullName}}">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">{{phrase.rollid}} </label>
-                            <div class="col-sm-10">
-                                <input type="text" name="studentRollId" ng-model="form.studentRollId" class="form-control" placeholder="{{phrase.rollid}}">
-                            </div>
-                        </div>
-                        <div class="form-group row" ng-class="{'has-error': addAdmin.username.$invalid}">
-                            <label class="col-sm-2 text-right control-label col-form-label">{{phrase.username}} * </label>
-                            <div class="col-sm-10">
-                                <input type="text" name="username" ng-model="form.username" class="form-control" required placeholder="{{phrase.username}}">
-                            </div>
-                        </div>
-                        <div class="form-group row" ng-class="{'has-error': addAdmin.email.$invalid}">
-                            <label class="col-sm-2 text-right control-label col-form-label">{{phrase.email}} *</label>
-                            <div class="col-sm-10">
-                                <input type="email" name="email" ng-model="form.email" class="form-control" placeholder="{{phrase.email}}" ng-required="$root.dashboardData.emailIsMandatory == '1'">
-                            </div>
-                        </div>
-                        <div class="form-group row" ng-class="{'has-error': addAdmin.password.$invalid}">
-                            <label class="col-sm-2 text-right control-label col-form-label">{{phrase.password}} *</label>
-                            <div class="col-sm-10">
-                                <input type="password" name="password" ng-model="form.password" class="form-control" required placeholder="{{phrase.password}}">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">{{phrase.Gender}}</label>
-                            <div class="col-sm-10">
-
-                                <div class="radio-list">
-                                    <label>
-                                        <input type="radio" name="gender" value="male" ng-model="form.gender" checked="checked">
-                                        {{phrase.Male}}
-                                    </label>
-                                </div>
-                                <div class="radio-list">
-                                    <label>
-                                        <input type="radio" name="gender" value="female" ng-model="form.gender">
-                                        {{phrase.Female}}
-                                    </label>
+                    <form class="form" ng-upload="saveAdd(content)" method="post" action="index.php/students" name="addAdmin" role="form">
+                        <div class="accordion" id="add_accordionExample">
+                            <div class="card">
+                                <div class="card-header" id="add_headingOne" style="background-color: #dee9ed !important;">
+                                    <h5 class="mb-0">
+                                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#add_collapseOne" aria-expanded="true" aria-controls="add_collapseOne">
+                                            Student Details
+                                        </button>
+                                    </h5>
                                 </div>
 
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">{{phrase.Birthday}}</label>
-                            <div class="col-sm-10">
-                                <input type="text" date-picker id="datemask" name="birthday" ng-model="form.birthday" class="form-control datemask">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">{{phrase.Address}}</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="address" class="form-control" ng-model="form.address" placeholder="{{phrase.Address}}">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">{{phrase.phoneNo}}</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="phoneNo" class="form-control" ng-model="form.phoneNo" placeholder="{{phrase.phoneNo}}" international-phone-number>
-                            </div>
-                        </div>
-                        <div class="form-group row" ng-class="{'has-error': addAdmin.mobileNo.$invalid}">
-                            <label class="col-sm-2 text-right control-label col-form-label">{{phrase.mobileNo}}</label>
-                            <div class="col-sm-10">
-                                <input type="text" mobile-number name="mobileNo" class="form-control mobilenumber" ng-model="form.mobileNo" >
-                            </div>
-                        </div>
-                        <div class="form-group row" ng-class="{'has-error': addAdmin.studentClass.$invalid}">
-                            <label class="col-sm-2 text-right control-label col-form-label">{{phrase.class}}</label>
-                            <div class="col-sm-10">
-                                <select class="form-control" name="studentClass" ng-model="form.studentClass" required ng-change="subjectList()">
-                                    <option ng-repeat="class in classes" value="{{class.id}}">{{class.className}}</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row" ng-class="{'has-error': addAdmin.studentSection.$invalid}" ng-show="$root.dashboardData.enableSections == '1'">
-                            <label class="col-sm-2 text-right control-label col-form-label">{{phrase.section}} *</label>
-                            <div class="col-sm-10">
-                                <select class="form-control" ng-model="form.studentSection" ng-required="$root.dashboardData.enableSections == '1'" name="studentSection">
-                                    <option ng-repeat="section in sections" value="{{section.id}}">{{section.sectionName}} - {{section.sectionTitle}}</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">{{phrase.Transportation}}</label>
-                            <div class="col-sm-10">
-                                <select class="form-control" name="transport" ng-model="form.transport" >
-                                    <option ng-repeat="transport in transports" value="{{transport.id}}">{{transport.transportTitle}}</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">{{phrase.Hostel}}</label>
-                            <div class="col-sm-10">
-                                <select class="form-control" name="hostel" ng-model="form.hostel" >
-                                    <option ng-repeat="(key,value) in hostel" value="{{key}}">{{value}}</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">Adhar Card Number</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="adhar" class="form-control" ng-model="form.adhar">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">{{phrase.Photo}}</label>
-                            <div class="col-sm-10">
-                                <input type="file" name="photo">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">{{phrase.Communication}}</label>
-                            <div class="col-sm-10">
+                                <div id="add_collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <table aria-rowspan="0" aria-colspan="0" class="col-md-12">
+                                            <tr class="row">
+                                                <td class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-12 control-label col-form-label">* {{phrase.FullName}}</label>
+                                                        <div class="col-sm-12">
+                                                            <input type="text" name="fullName" ng-model="form.fullName" class="form-control" required placeholder="{{phrase.FullName}}">
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-12 control-label col-form-label">* {{phrase.rollid}} </label>
+                                                        <div class="col-sm-12">
+                                                            <input type="text" name="studentRollId" ng-model="form.studentRollId" class="form-control" placeholder="{{phrase.rollid}}" required>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr class="row">
+                                                <td class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-12 control-label col-form-label">* {{phrase.Birthday}}</label>
+                                                        <div class="col-sm-12">
+                                                            <input type="text" date-picker id="datemask" name="birthday" ng-model="form.birthday" class="form-control datemask" required>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-12 control-label col-form-label">* {{phrase.Gender}}</label>
+                                                        <div class="col-sm-12">
+                                                            <select class="form-control" name="gender" ng-model="form.gender" required>
+                                                                <option value="">Select Gender</option>
+                                                                <option value="male">Male</option>
+                                                                <option value="female">Female</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr class="row">
+                                                <td class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-12 control-label col-form-label">* Adhar Card Number</label>
+                                                        <div class="col-sm-12">
+                                                            <input type="text" name="adhar" class="form-control" ng-model="form.adhar" required>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-12 control-label col-form-label">Blood Group</label>
+                                                        <div class="col-sm-12">
+                                                            <select name="bloodGroup" class="form-control" ng-model="form.bloodGroup" required>
+                                                                <option value="">Select Blood Group</option>
+                                                                <option value="A+">A+</option>
+                                                                <option value="A-">A-</option>
+                                                                <option value="B+">B+</option>
+                                                                <option value="B-">B-</option>
+                                                                <option value="O+">O+</option>
+                                                                <option value="O-">O-</option>
+                                                                <option value="AB+">AB+</option>
+                                                                <option value="AB-">AB-</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr class="row">
+                                                <td class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-12 control-label col-form-label">* {{phrase.mobileNo}}</label>
+                                                        <div class="col-sm-12">
+                                                            <input type="text" mobile-number name="mobileNo" class="form-control mobilenumber" ng-model="form.mobileNo" required>
+                                                        </div>
+                                                    </div>
 
-                                <div class="radio-list">
-                                    <label>
-                                        <input type="checkbox" name="comVia[]" value="mail" checklist-model="form.comVia"> {{phrase.mail}}
-                                    </label>
-                                </div>
-                                <div class="radio-list">
-                                    <label>
-                                        <input type="checkbox" name="comVia[]" value="sms" checklist-model="form.comVia"> {{phrase.sms}}
-                                    </label>
-                                </div>
-                                <div class="radio-list">
-                                    <label>
-                                        <input type="checkbox" name="comVia[]" value="phone" checklist-model="form.comVia"> {{phrase.phone}}
-                                    </label>
-                                </div>
+                                                </td>
+                                                <td class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-12 control-label col-form-label">{{phrase.phoneNo}}</label>
+                                                        <div class="col-sm-12">
+                                                            <input type="text" name="phoneNo" class="form-control" ng-model="form.phoneNo" placeholder="{{phrase.phoneNo}}" international-phone-number>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr class="row">
+                                                <td class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-12 control-label col-form-label">* {{phrase.email}} </label>
+                                                        <div class="col-sm-12">
+                                                            <input type="email" name="email" ng-model="form.email" class="form-control" placeholder="{{phrase.email}}" required>
+                                                        </div>
+                                                    </div>
 
+                                                </td>
+                                                <td class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-12 control-label col-form-label">* {{phrase.password}}</label>
+                                                        <div class="col-sm-12">
+                                                            <input type="password" name="password" ng-model="form.password" class="form-control" required placeholder="{{phrase.password}}">
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr class="row">
+                                                <td class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-12 control-label col-form-label">{{phrase.username}} * </label>
+                                                        <div class="col-sm-12">
+                                                            <input type="text" name="username" ng-model="form.username" class="form-control" required placeholder="{{phrase.username}}">
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-12 control-label col-form-label">{{phrase.Address}}</label>
+                                                        <div class="col-sm-12">
+                                                            <input type="text" name="address" class="form-control" ng-model="form.address" placeholder="{{phrase.Address}}" required>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr class="row">
+                                                <td class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-12 control-label col-form-label">{{phrase.Photo}}</label>
+                                                        <div class="col-sm-12">
+                                                            <input type="file" name="photo">
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-12 control-label col-form-label">Secondary Phone Number</label>
+                                                        <div class="col-sm-12">
+                                                            <input type="text" name="secondaryPhoneNo" class="form-control" ng-model="form.secondaryPhoneNo">
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" id="add_headingTwo" style="background-color: #dee9ed !important;">
+                                    <h5 class="mb-0">
+                                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#add_collapseTwo" aria-expanded="false" aria-controls="add_collapseTwo">
+                                            Personal Marks Identification
+                                        </button>
+                                    </h5>
+                                </div>
+                                <div id="add_collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <table aria-rowspan="0" aria-colspan="0" class="col-md-12">
+                                            <tr class="row">
+                                                <td class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-12 control-label col-form-label">Personal Marks of Identification</label>
+                                                        <div class="col-sm-12">
+                                                            <textarea type="text" name="identificationMarks" ng-model="form.identificationMarks" class="form-control" rows="3"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-12 control-label col-form-label">Medical History</label>
+                                                        <div class="col-sm-12">
+                                                            <textarea type="text" name="medicalHistory" ng-model="form.medicalHistory" class="form-control" rows="3"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" id="add_headingThree" style="background-color: #dee9ed !important;">
+                                    <h5 class="mb-0">
+                                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#add_collapseThree" aria-expanded="false" aria-controls="add_collapseThree">
+                                            Bank Details
+                                        </button>
+                                    </h5>
+                                </div>
+                                <div id="add_collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <table aria-rowspan="0" aria-colspan="0" class="col-md-12">
+                                            <tr class="row">
+                                                <td class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-12 control-label col-form-label">Bank Name</label>
+                                                        <div class="col-sm-12">
+                                                            <input type="text" name="bankName" class="form-control" ng-model="form.bankName">
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-12 control-label col-form-label">Account Number</label>
+                                                        <div class="col-sm-12">
+                                                            <input type="text" name="accountNo" class="form-control" ng-model="form.accountNo">
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr class="row">
+                                                <td class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-12 control-label col-form-label">Account Holder Name</label>
+                                                        <div class="col-sm-12">
+                                                            <input type="text" name="accountHolderName" class="form-control" ng-model="form.accountHolderName">
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-12 control-label col-form-label">Bank Branch</label>
+                                                        <div class="col-sm-12">
+                                                            <input type="text" name="bankBranch" class="form-control" ng-model="form.bankBranch">
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr class="row">
+                                                <td class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-12 control-label col-form-label">IFSC Code</label>
+                                                        <div class="col-sm-12">
+                                                            <input type="text" name="ifscCode" class="form-control" ng-model="form.ifscCode">
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="col-md-6">
+
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" id="add_headingFour" style="background-color: #dee9ed !important;">
+                                    <h5 class="mb-0">
+                                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#add_collapseFour" aria-expanded="false" aria-controls="add_collapseFour">
+                                            Citizenship
+                                        </button>
+                                    </h5>
+                                </div>
+                                <div id="add_collapseFour" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <table aria-rowspan="0" aria-colspan="0" class="col-md-12">
+                                            <tr class="row">
+                                                <td class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-12 control-label col-form-label">* Nationality</label>
+                                                        <div class="col-sm-12">
+                                                            <input type="text" name="nationality" class="form-control" ng-model="form.nationality" required>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-12 control-label col-form-label">* Religion</label>
+                                                        <div class="col-sm-12">
+                                                            <input type="text" name="religion" class="form-control" ng-model="form.religion" required>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr class="row">
+                                                <td class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-12 control-label col-form-label">* Caste</label>
+                                                        <div class="col-sm-12">
+                                                            <input type="text" name="caste" class="form-control" ng-model="form.caste" required>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-12 control-label col-form-label">* Community</label>
+                                                        <div class="col-sm-12">
+                                                            <select name="community" class="form-control" ng-model="form.community" required>
+                                                                <option value="">Select Community</option>
+                                                                <option value="BC">BC</option>
+                                                                <option value="BCM">BCM</option>
+                                                                <option value="MBC">MBC</option>
+                                                                <option value="OC">OC</option>
+                                                                <option value="SC">SC</option>
+                                                                <option value="SCA">SCA</option>
+                                                                <option value="ST">ST</option>
+                                                                <option value="SS">SS</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" id="add_headingFive" style="background-color: #dee9ed !important;">
+                                    <h5 class="mb-0">
+                                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#add_collapseFive" aria-expanded="false" aria-controls="add_collapseFive">
+                                           Academic Details
+                                        </button>
+                                    </h5>
+                                </div>
+                                <div id="add_collapseFive" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <table aria-rowspan="0" aria-colspan="0" class="col-md-12">
+                                            <tr class="row">
+                                                <td class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-12 control-label col-form-label">* Date of Admission</label>
+                                                        <div class="col-sm-12">
+                                                            <input type="text"  date-picker name="admissionDate" class="form-control datemask" ng-model="form.admissionDate" required>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-12 control-label col-form-label">* Medium of Study</label>
+                                                        <div class="col-sm-12">
+                                                            <select name="mediumStudy" class="form-control" ng-model="form.mediumStudy" required>
+                                                            <option value="">Select Medium of Study</option>
+                                                            <option value="Tamil">Tamil</option>
+                                                            <option value="English">English</option>
+                                                            <option value="Hindi">Hindi</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr class="row">
+                                                <td class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-12 control-label col-form-label">* {{phrase.class}}</label>
+                                                        <div class="col-sm-12">
+                                                            <select class="form-control" name="studentClass" ng-model="form.studentClass" required ng-change="subjectList()">
+                                                                <option ng-repeat="class in classes" value="{{class.id}}">{{class.className}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-12 control-label col-form-label">* {{phrase.section}}</label>
+                                                        <div class="col-sm-12">
+                                                            <select class="form-control" ng-model="form.studentSection" name="studentSection" required>
+                                                                <option ng-repeat="section in sections" value="{{section.id}}">{{section.sectionName}} - {{section.sectionTitle}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr class="row">
+                                                <td class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-12 control-label col-form-label">Courses Offered (Only for XI/XII standard)</label>
+                                                        <div class="col-sm-12">
+                                                            <select name="courseOffered" class="form-control" ng-model="form.courseOffered">
+                                                                <option value="">Select Courses Offered</option>
+                                                                <option value="General Education">General Education</option>
+                                                                <option value="Vocational Education">Vocational Education</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-12 control-label col-form-label">Subjects Offered</label>
+                                                        <div class="col-sm-12">
+                                                            <select name="subjectsOffered" class="form-control" ng-model="form.subjectsOffered">
+                                                                <option value="">Select Subjects Offered</option>
+                                                                <option value="Physics | Chemistry | Statistics | Mathematics">Physics | Chemistry | Statistics | Mathematics</option>
+                                                                <option value="Physics | Chemistry | Comp.Science | Mathematics">Physics | Chemistry | Comp.Science | Mathematics</option>
+                                                                <option value="Physics | Chemistry | Biology | Mathematics">Physics | Chemistry | Biology | Mathematics</option>
+                                                                <option value="Physics | Chemistry | Bio-Chemistry | Mathematics">Physics | Chemistry | Bio-Chemistry | Mathematics</option>
+                                                                <option value="Physics | Chemistry | Mathematics | Home Science">Physics | Chemistry | Mathematics | Home Science</option>
+                                                                <option value="Physics | Chemistry | Biology | Comp.Science ">Physics | Chemistry | Biology | Comp.Science </option>
+                                                                <option value="Physics | Chemistry | Biology | Micro-Biology">Physics | Chemistry | Biology | Micro-Biology</option>
+                                                                <option value="Physics | Chemistry | Biology | Bio-Chemistry">Physics | Chemistry | Biology | Bio-Chemistry</option>
+                                                                <option value="Physics | Chemistry | Biology | Nursing">Physics | Chemistry | Biology | Nursing</option>
+                                                                <option value="Physics | Chemistry | Biology | Home Science">Physics | Chemistry | Biology | Home Science</option>
+                                                                <option value="Physics | Chemistry | Biology | Siddha">Physics | Chemistry | Biology | Siddha</option>
+                                                                <option value="Physics | Chemistry | Botany | Zoology">Physics | Chemistry | Botany | Zoology</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr class="row">
+                                                <td class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-12 control-label col-form-label">* EMIS Number</label>
+                                                        <div class="col-sm-12">
+                                                            <input type="text" name="emisNo" class="form-control" ng-model="form.emisNo" required>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-12 control-label col-form-label">* TMR Code</label>
+                                                        <div class="col-sm-10">
+                                                            <input type="text" name="tmrCode" class="form-control" ng-model="form.tmrCode" required>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr class="row">
+                                                <td class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-12 control-label col-form-label">* Register Number</label>
+                                                        <div class="col-sm-12">
+                                                            <input type="text" name="registerNo" class="form-control" ng-model="form.registerNo" required>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-12 control-label col-form-label">* Class Admitted when joining School</label>
+                                                        <div class="col-sm-10">
+                                                            <input type="text" name="classAdmitted" class="form-control" ng-model="form.classAdmitted" required>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" id="add_headingSix" style="background-color: #dee9ed !important;">
+                                    <h5 class="mb-0">
+                                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#add_collapseSix" aria-expanded="false" aria-controls="add_collapseSix">
+                                            General Details
+                                        </button>
+                                    </h5>
+                                </div>
+                                <div id="add_collapseSix" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <table aria-rowspan="0" aria-colspan="0" class="col-md-12">
+                                            <tr class="row">
+                                                <td class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-12 control-label col-form-label">{{phrase.Transportation}}</label>
+                                                        <div class="col-sm-12">
+                                                            <select class="form-control" name="transport" ng-model="form.transport" >
+                                                                <option ng-repeat="transport in transports" value="{{transport.id}}">{{transport.transportTitle}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-12 control-label col-form-label">{{phrase.Hostel}}</label>
+                                                        <div class="col-sm-12">
+                                                            <select class="form-control" name="hostel" ng-model="form.hostel" >
+                                                                <option ng-repeat="(key,value) in hostel" value="{{key}}">{{value}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr class="row">
+                                                <td class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-12 control-label col-form-label">{{phrase.Communication}}</label>
+                                                        <div class="col-sm-10">
+
+                                                            <div class="radio-list">
+                                                                <label>
+                                                                    <input type="checkbox" name="comVia[]" value="mail" checklist-model="form.comVia"> {{phrase.mail}}
+                                                                </label>
+                                                            </div>
+                                                            <div class="radio-list">
+                                                                <label>
+                                                                    <input type="checkbox" name="comVia[]" value="sms" checklist-model="form.comVia"> {{phrase.sms}}
+                                                                </label>
+                                                            </div>
+                                                            <div class="radio-list">
+                                                                <label>
+                                                                    <input type="checkbox" name="comVia[]" value="phone" checklist-model="form.comVia"> {{phrase.phone}}
+                                                                </label>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="col-md-6">
+
+                                                </td>
+                                            </tr>
+                                            
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">Date of Admission</label>
-                            <div class="col-sm-10">
-                                <input type="text"  date-picker name="doa" class="form-control datemask" ng-model="form.doa">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">Bank Name</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="bankName" class="form-control" ng-model="form.bankName">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">Account Holder Name</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="accountHolderName" class="form-control" ng-model="form.accountHolderName">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">Account Number</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="accountNumber" class="form-control" ng-model="form.accountNumber">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">IFSC Code</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="ifscCode" class="form-control" ng-model="form.ifscCode">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">Bank Branch</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="bankBranch" class="form-control" ng-model="form.bankBranch">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">Nationality</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="nationality" class="form-control" ng-model="form.nationality">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">Religion</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="religion" class="form-control" ng-model="form.religion">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">Caste</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="caste" class="form-control" ng-model="form.caste">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">Community</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="community" class="form-control" ng-model="form.community">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">Blood Group</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="bloodGroup" class="form-control" ng-model="form.bloodGroup">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">Personal Marks of Identification</label>
-                            <div class="col-sm-10">
-                                <textarea type="text" name="personalMarksIndentification" ng-model="form.personalMarksIndentification" class="form-control"></textarea>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">Medical History</label>
-                            <div class="col-sm-10">
-                                <textarea type="text" name="medicalHistory" ng-model="form.medicalHistory" class="form-control"></textarea>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">Class Admitted when joining School</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="classAdmitted" class="form-control" ng-model="form.classAdmitted">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">Courses Offered (Only for XI/XII standard)</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="courseOffered" class="form-control" ng-model="form.courseOffered">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">Subjects Offered</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="subjectsOffered" class="form-control" ng-model="form.subjectsOffered">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">Medium of Study</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="mediumStudy" class="form-control" ng-model="form.mediumStudy">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">EMIS Number</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="emisNumber" class="form-control" ng-model="form.emisNumber">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">TMR Code</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="tmrCode" class="form-control" ng-model="form.tmrCode">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">Register Number</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="registerNumber" class="form-control" ng-model="form.registerNumber">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">Secondary Phone Number</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="secondaryPhone" class="form-control" ng-model="form.secondaryPhone">
-                            </div>
-                        </div>
-                        <div class="form-group m-b-0">
-                            <div class="offset-sm-2 col-sm-10">
-                                <button type="submit" class="btn btn-info waves-effect waves-light" ng-disabled="addAdmin.$invalid">{{phrase.addStudent}}</button>
+                        <div class="form-group m-b-0" style="margin-top: 20px;">
+                            <div class="col-sm-12">
+                                <button ng-click="changeView('list')" class="btn pull-right btn-danger card-block-input-item">{{phrase.cancelAdd}}</button>
+                                <button type="submit" class="btn btn-info waves-effect waves-light">{{phrase.addStudent}}</button>
                             </div>
                         </div>
                     </form>
@@ -627,300 +881,535 @@
                 <h4 class="card-title">{{phrase.editStudent}}</h4>
                 <div class="form">
 
-                    <form class="form" name="editDorm" role="form" ng-upload="saveEdit(content)" method="post" action="{{'index.php/students/'+form.id}}" novalidate>
-                        <div class="form-group row" ng-class="{'has-error': addAdmin.fullName.$invalid}">
-                            <label class="col-sm-2 text-right control-label col-form-label">{{phrase.FullName}} * </label>
-                            <div class="col-sm-10">
-                                <input type="text" name="fullName" ng-model="form.fullName" class="form-control" required placeholder="{{phrase.FullName}}">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">{{phrase.rollid}} </label>
-                            <div class="col-sm-10">
-                                <input type="text" name="studentRollId" ng-model="form.studentRollId" class="form-control" placeholder="{{phrase.rollid}}">
-                            </div>
-                        </div>
-                        <div class="form-group row" ng-class="{'has-error': addAdmin.username.$invalid}">
-                            <label class="col-sm-2 text-right control-label col-form-label">{{phrase.username}} * </label>
-                            <div class="col-sm-10">
-                                <input type="text" name="username" ng-model="form.username" class="form-control" required placeholder="{{phrase.username}}">
-                            </div>
-                        </div>
-                        <div class="form-group row" ng-class="{'has-error': addAdmin.email.$invalid}">
-                            <label class="col-sm-2 text-right control-label col-form-label">{{phrase.email}} *</label>
-                            <div class="col-sm-10">
-                                <input type="email" name="email" ng-model="form.email" class="form-control" placeholder="{{phrase.email}}" ng-required="$root.dashboardData.emailIsMandatory == '1'">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">{{phrase.password}} *</label>
-                            <div class="col-sm-10">
-                                <input type="password" name="password" ng-model="form.password" class="form-control" placeholder="{{phrase.password}}">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">{{phrase.Gender}}</label>
-                            <div class="col-sm-10">
+                    <div class="form">
+                        <form class="form" ng-upload="saveEdit(content)" method="post" action="{{'index.php/students/'+form.id}}" name="addAdmin" role="form">
+                        <!--<form class="form" name="editDorm" role="form" ng-upload="saveEdit(content)" method="post" action="{{'index.php/students/'+form.id}}">-->
+                            <div class="accordion" id="accordionExample">
+                                <div class="card">
+                                    <div class="card-header" id="headingOne" style="background-color: #dee9ed !important;">
+                                        <h5 class="mb-0">
+                                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                Student Details
+                                            </button>
+                                        </h5>
+                                    </div>
 
-                                <div class="radio-list">
-                                    <label>
-                                        <input type="radio" name="gender" value="male" ng-model="form.gender" checked="checked">
-                                        {{phrase.Male}}
-                                    </label>
-                                </div>
-                                <div class="radio-list">
-                                    <label>
-                                        <input type="radio" name="gender" value="female" ng-model="form.gender">
-                                        {{phrase.Female}}
-                                    </label>
-                                </div>
+                                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            <table aria-rowspan="0" aria-colspan="0" class="col-md-12">
+                                                <tr class="row">
+                                                    <td class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-12 control-label col-form-label">* {{phrase.FullName}}</label>
+                                                            <div class="col-sm-12">
+                                                                <input type="text" name="fullName" ng-model="form.fullName" class="form-control" required placeholder="{{phrase.FullName}}">
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-12 control-label col-form-label">* {{phrase.rollid}} </label>
+                                                            <div class="col-sm-12">
+                                                                <input type="text" name="studentRollId" ng-model="form.studentRollId" class="form-control" placeholder="{{phrase.rollid}}" required>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="row">
+                                                    <td class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-12 control-label col-form-label">* {{phrase.Birthday}}</label>
+                                                            <div class="col-sm-12">
+                                                                <input type="text" date-picker id="datemask" name="birthday" ng-model="form.birthday" class="form-control datemask" required>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-12 control-label col-form-label">* {{phrase.Gender}}</label>
+                                                            <div class="col-sm-12">
+                                                                <select class="form-control" name="gender" ng-model="form.gender" required>
+                                                                    <option value="">Select Gender</option>
+                                                                    <option value="male">Male</option>
+                                                                    <option value="female">Female</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="row">
+                                                    <td class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-12 control-label col-form-label">* Adhar Card Number</label>
+                                                            <div class="col-sm-12">
+                                                                <input type="text" name="adhar" class="form-control" ng-model="form.adhar" required>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-12 control-label col-form-label">Blood Group</label>
+                                                            <div class="col-sm-12">
+                                                                <select name="bloodGroup" class="form-control" ng-model="form.bloodGroup" required>
+                                                                    <option value="">Select Blood Group</option>
+                                                                    <option value="A+">A+</option>
+                                                                    <option value="A-">A-</option>
+                                                                    <option value="B+">B+</option>
+                                                                    <option value="B-">B-</option>
+                                                                    <option value="O+">O+</option>
+                                                                    <option value="O-">O-</option>
+                                                                    <option value="AB+">AB+</option>
+                                                                    <option value="AB-">AB-</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="row">
+                                                    <td class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-12 control-label col-form-label">* {{phrase.mobileNo}}</label>
+                                                            <div class="col-sm-12">
+                                                                <input type="text" mobile-number name="mobileNo" class="form-control mobilenumber" ng-model="form.mobileNo" required>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-12 control-label col-form-label">{{phrase.phoneNo}}</label>
+                                                            <div class="col-sm-12">
+                                                                <input type="text" name="phoneNo" class="form-control" ng-model="form.phoneNo" placeholder="{{phrase.phoneNo}}" international-phone-number>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="row">
+                                                    <td class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-12 control-label col-form-label">* {{phrase.email}}</label>
+                                                            <div class="col-sm-12">
+                                                                <input type="email" name="email" ng-model="form.email" class="form-control" placeholder="{{phrase.email}}" required>
+                                                            </div>
+                                                        </div>
 
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">{{phrase.Birthday}}</label>
-                            <div class="col-sm-10">
-                                <input type="text" date-picker id="datemaskEdit" name="birthday" ng-model="form.birthday" class="form-control datemask">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">{{phrase.Address}}</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="address" class="form-control" ng-model="form.address" placeholder="{{phrase.Address}}">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">{{phrase.phoneNo}}</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="phoneNo" class="form-control" ng-model="form.phoneNo" placeholder="{{phrase.phoneNo}}">
-                            </div>
-                        </div>
-                        <div class="form-group row" ng-class="{'has-error': editDorm.mobileNo.$invalid}">
-                            <label class="col-sm-2 text-right control-label col-form-label">{{phrase.mobileNo}}</label>
-                            <div class="col-sm-10">
-                                <input mobile-number type="text" name="mobileNo" class="form-control mobilenumber" ng-model="form.mobileNo" value="{{form.mobileNo}}">
-                            </div>
-                        </div>
-                        <div class="form-group row" ng-class="{'has-error': addAdmin['academicYear[]'].$invalid}">
-                            <label class="col-sm-2 text-right control-label col-form-label">{{phrase.class}}</label>
-                            <div class="col-sm-10">
-                                <table class="table table-bordered">
-                                    <tr>
-                                        <th>{{phrase.academicyears}}</th>
-                                        <th>{{phrase.class}}</th>
-                                        <th ng-show="$root.dashboardData.enableSections == '1'">{{phrase.section}}</th>
-                                        <th>{{phrase.Remove}}</th>
-                                    </tr>
-                                    <tr ng-repeat="(key,value) in form.studentAcademicYears">
-                                        <td>
-                                            {{form.academicYear[value.id]}}
-                                            <span ng-show="value.default == form.studentClass">*</span>
-                                        </td>
-                                        <td ng-show="value.id != '0'">
-                                            <select class="form-control" name="academicYear[{{value.id}}]" ng-model="selectedClass" ng-init="selectedClass = value.default" required>
-                                                <option ng-repeat="class in value.classSections.classes" value="{{class.id}}" ng-selected="class.id == value.default">{{class.className}}</option>
-                                            </select>
-                                        </td>
-                                        <td ng-show="$root.dashboardData.enableSections == '1' && value.id != '0'">
-                                            <select class="form-control" name="userSection[{{value.id}}]" required>
-                                                <option ng-repeat="section in value.classSections.sections[selectedClass]" value="{{section.id}}" ng-selected="section.id == value.defSection"> {{section.sectionName}} - {{section.sectionTitle}}</option>
-                                            </select>
-                                        </td>
-                                        <td ng-show="value.id != '0'">
-                                            <a ng-show="value.default == form.studentClass" ng-disabled="true" ng-click="alert('You cannot delete current default academic year')" type="button" class="btn btn-danger btn-flat" title="{{phrase.Remove}}" tooltip><i class="fa fa-trash-o"></i></a>
-                                            <a ng-show="value.default != form.studentClass" ng-click="removeStAcYear(form.id,value.id,$index)" type="button" class="btn btn-danger btn-flat" title="{{phrase.Remove}}" tooltip><i class="fa fa-trash-o"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr ng-show="form.studentClass == '-1'">
-                                        <td colspan="4">
-                                            Graduated
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">{{phrase.Transportation}}</label>
-                            <div class="col-sm-10">
-                                <select class="form-control" name="transport" ng-model="form.transport" >
-                                    <option ng-repeat="transport in transports" value="{{transport.id}}">{{transport.transportTitle}}</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">Hostel</label>
-                            <div class="col-sm-10">
-                                <select class="form-control" name="hostel" ng-model="form.hostel" >
-                                    <option ng-repeat="(key,value) in hostel" value="{{key}}">{{value}}</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">Adhar Card Number</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="adhar" class="form-control" value="{{form.mobileNo}}" ng-model="form.adhar">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">{{phrase.Photo}}</label>
-                            <div class="col-sm-10">
-                                <input type="file" name="photo">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">{{phrase.Communication}}</label>
-                            <div class="col-sm-10">
+                                                    </td>
+                                                    <td class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-12 control-label col-form-label">{{phrase.password}}</label>
+                                                            <div class="col-sm-12">
+                                                                <input type="password" name="password" ng-model="form.password" class="form-control" placeholder="{{phrase.password}}">
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="row">
+                                                    <td class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-12 control-label col-form-label">{{phrase.username}} * </label>
+                                                            <div class="col-sm-12">
+                                                                <input type="text" name="username" ng-model="form.username" class="form-control" required placeholder="{{phrase.username}}">
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-12 control-label col-form-label">{{phrase.Address}}</label>
+                                                            <div class="col-sm-12">
+                                                                <input type="text" name="address" class="form-control" ng-model="form.address" placeholder="{{phrase.Address}}" required>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="row">
+                                                    <td class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-12 control-label col-form-label">{{phrase.Photo}}</label>
+                                                            <div class="col-sm-12">
+                                                                <input type="file" name="photo">
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-12 control-label col-form-label">Secondary Phone Number</label>
+                                                            <div class="col-sm-12">
+                                                                <input type="text" name="secondaryPhoneNo" class="form-control" ng-model="form.secondaryPhoneNo">
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
 
-                                <div class="radio-list">
-                                    <label>
-                                        <input type="checkbox" name="comVia[]" value="mail" checklist-model="form.comVia"> {{phrase.mail}}
-                                    </label>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="radio-list">
-                                    <label>
-                                        <input type="checkbox" name="comVia[]" value="sms" checklist-model="form.comVia"> {{phrase.sms}}
-                                    </label>
+                                <div class="card">
+                                    <div class="card-header" id="headingTwo" style="background-color: #dee9ed !important;">
+                                        <h5 class="mb-0">
+                                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                Personal Marks Identification
+                                            </button>
+                                        </h5>
+                                    </div>
+                                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            <table aria-rowspan="0" aria-colspan="0" class="col-md-12">
+                                                <tr class="row">
+                                                    <td class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-12 control-label col-form-label">Personal Marks of Identification</label>
+                                                            <div class="col-sm-12">
+                                                                <textarea type="text" name="identificationMarks" ng-model="form.identificationMarks" class="form-control" rows="3"></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-12 control-label col-form-label">Medical History</label>
+                                                            <div class="col-sm-12">
+                                                                <textarea type="text" name="medicalHistory" ng-model="form.medicalHistory" class="form-control" rows="3"></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="radio-list">
-                                    <label>
-                                        <input type="checkbox" name="comVia[]" value="phone" checklist-model="form.comVia"> {{phrase.phone}}
-                                    </label>
-                                </div>
+                                <div class="card">
+                                    <div class="card-header" id="headingThree" style="background-color: #dee9ed !important;">
+                                        <h5 class="mb-0">
+                                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                Bank Details
+                                            </button>
+                                        </h5>
+                                    </div>
+                                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            <table aria-rowspan="0" aria-colspan="0" class="col-md-12">
+                                                <tr class="row">
+                                                    <td class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-12 control-label col-form-label">Bank Name</label>
+                                                            <div class="col-sm-12">
+                                                                <input type="text" name="bankName" class="form-control" ng-model="form.bankName">
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-12 control-label col-form-label">Account Number</label>
+                                                            <div class="col-sm-12">
+                                                                <input type="text" name="accountNo" class="form-control" ng-model="form.accountNo">
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="row">
+                                                    <td class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-12 control-label col-form-label">Account Holder Name</label>
+                                                            <div class="col-sm-12">
+                                                                <input type="text" name="accountHolderName" class="form-control" ng-model="form.accountHolderName">
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-12 control-label col-form-label">Bank Branch</label>
+                                                            <div class="col-sm-12">
+                                                                <input type="text" name="bankBranch" class="form-control" ng-model="form.bankBranch">
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="row">
+                                                    <td class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-12 control-label col-form-label">IFSC Code</label>
+                                                            <div class="col-sm-12">
+                                                                <input type="text" name="ifscCode" class="form-control" ng-model="form.ifscCode">
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="col-md-6">
 
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header" id="headingFour" style="background-color: #dee9ed !important;">
+                                        <h5 class="mb-0">
+                                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                                Citizenship
+                                            </button>
+                                        </h5>
+                                    </div>
+                                    <div id="collapseFour" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            <table aria-rowspan="0" aria-colspan="0" class="col-md-12">
+                                                <tr class="row">
+                                                    <td class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-12 control-label col-form-label">* Nationality</label>
+                                                            <div class="col-sm-12">
+                                                                <input type="text" name="nationality" class="form-control" ng-model="form.nationality" required>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-12 control-label col-form-label">* Religion</label>
+                                                            <div class="col-sm-12">
+                                                                <input type="text" name="religion" class="form-control" ng-model="form.religion" required>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="row">
+                                                    <td class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-12 control-label col-form-label">* Caste</label>
+                                                            <div class="col-sm-12">
+                                                                <input type="text" name="caste" class="form-control" ng-model="form.caste" required>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-12 control-label col-form-label">* Community</label>
+                                                            <div class="col-sm-12">
+                                                                <select name="community" class="form-control" ng-model="form.community" required>
+                                                                    <option value="">Select Community</option>
+                                                                    <option value="BC">BC</option>
+                                                                    <option value="BCM">BCM</option>
+                                                                    <option value="MBC">MBC</option>
+                                                                    <option value="OC">OC</option>
+                                                                    <option value="SC">SC</option>
+                                                                    <option value="SCA">SCA</option>
+                                                                    <option value="ST">ST</option>
+                                                                    <option value="SS">SS</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header" id="headingFive" style="background-color: #dee9ed !important;">
+                                        <h5 class="mb-0">
+                                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                                Academic Details
+                                            </button>
+                                        </h5>
+                                    </div>
+                                    <div id="collapseFive" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            <table aria-rowspan="0" aria-colspan="0" class="col-md-12">
+                                                <tr class="row">
+                                                    <td class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-12 control-label col-form-label">* Date of Admission</label>
+                                                            <div class="col-sm-12">
+                                                                <input type="text"  date-picker name="admissionDate" class="form-control datemask" ng-model="form.admissionDate" required>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-12 control-label col-form-label">* Medium of Study</label>
+                                                            <div class="col-sm-12">
+                                                                <select name="mediumStudy" class="form-control" ng-model="form.mediumStudy" required>
+                                                                    <option value="">Select Medium of Study</option>
+                                                                    <option value="Tamil">Tamil</option>
+                                                                    <option value="English">English</option>
+                                                                    <option value="Hindi">Hindi</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="row">
+                                                    <td class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-12 control-label col-form-label">* {{phrase.class}}</label>
+                                                            <div class="col-sm-12">
+                                                                <select class="form-control" name="studentClass" ng-model="form.studentClass" required ng-change="subjectList()">
+                                                                    <option ng-repeat="class in classes" value="{{class.id}}">{{class.className}}</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-12 control-label col-form-label">* {{phrase.section}}</label>
+                                                            <div class="col-sm-12">
+                                                                <select class="form-control" ng-model="form.studentSection" required name="studentSection">
+                                                                    <option ng-repeat="section in sections" value="{{section.id}}">{{section.sectionName}} - {{section.sectionTitle}}</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="row">
+                                                    <td class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-12 control-label col-form-label">Courses Offered (Only for XI/XII standard)</label>
+                                                            <div class="col-sm-12">
+                                                                <select name="courseOffered" class="form-control" ng-model="form.courseOffered">
+                                                                    <option value="">Select Courses Offered</option>
+                                                                    <option value="General Education">General Education</option>
+                                                                    <option value="Vocational Education">Vocational Education</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-12 control-label col-form-label">Subjects Offered</label>
+                                                            <div class="col-sm-12">
+                                                                <select name="subjectsOffered" class="form-control" ng-model="form.subjectsOffered">
+                                                                    <option value="">Select Subjects Offered</option>
+                                                                    <option value="Physics | Chemistry | Statistics | Mathematics">Physics | Chemistry | Statistics | Mathematics</option>
+                                                                    <option value="Physics | Chemistry | Comp.Science | Mathematics">Physics | Chemistry | Comp.Science | Mathematics</option>
+                                                                    <option value="Physics | Chemistry | Biology | Mathematics">Physics | Chemistry | Biology | Mathematics</option>
+                                                                    <option value="Physics | Chemistry | Bio-Chemistry | Mathematics">Physics | Chemistry | Bio-Chemistry | Mathematics</option>
+                                                                    <option value="Physics | Chemistry | Mathematics | Home Science">Physics | Chemistry | Mathematics | Home Science</option>
+                                                                    <option value="Physics | Chemistry | Biology | Comp.Science ">Physics | Chemistry | Biology | Comp.Science </option>
+                                                                    <option value="Physics | Chemistry | Biology | Micro-Biology">Physics | Chemistry | Biology | Micro-Biology</option>
+                                                                    <option value="Physics | Chemistry | Biology | Bio-Chemistry">Physics | Chemistry | Biology | Bio-Chemistry</option>
+                                                                    <option value="Physics | Chemistry | Biology | Nursing">Physics | Chemistry | Biology | Nursing</option>
+                                                                    <option value="Physics | Chemistry | Biology | Home Science">Physics | Chemistry | Biology | Home Science</option>
+                                                                    <option value="Physics | Chemistry | Biology | Siddha">Physics | Chemistry | Biology | Siddha</option>
+                                                                    <option value="Physics | Chemistry | Botany | Zoology">Physics | Chemistry | Botany | Zoology</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="row">
+                                                    <td class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-12 control-label col-form-label">* EMIS Number</label>
+                                                            <div class="col-sm-12">
+                                                                <input type="text" name="emisNo" class="form-control" ng-model="form.emisNo" required>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-12 control-label col-form-label">* TMR Code</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" name="tmrCode" class="form-control" ng-model="form.tmrCode" required>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="row">
+                                                    <td class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-12 control-label col-form-label">* Register Number</label>
+                                                            <div class="col-sm-12">
+                                                                <input type="text" name="registerNo" class="form-control" ng-model="form.registerNo" required>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-12 control-label col-form-label">* Class Admitted when joining School</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" name="classAdmitted" class="form-control" ng-model="form.classAdmitted" required>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header" id="headingSix" style="background-color: #dee9ed !important;">
+                                        <h5 class="mb-0">
+                                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                                                General Details
+                                            </button>
+                                        </h5>
+                                    </div>
+                                    <div id="collapseSix" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            <table aria-rowspan="0" aria-colspan="0" class="col-md-12">
+                                                <tr class="row">
+                                                    <td class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-12 control-label col-form-label">{{phrase.Transportation}}</label>
+                                                            <div class="col-sm-12">
+                                                                <select class="form-control" name="transport" ng-model="form.transport" >
+                                                                    <option ng-repeat="transport in transports" value="{{transport.id}}">{{transport.transportTitle}}</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-12 control-label col-form-label">{{phrase.Hostel}}</label>
+                                                            <div class="col-sm-12">
+                                                                <select class="form-control" name="hostel" ng-model="form.hostel" >
+                                                                    <option ng-repeat="(key,value) in hostel" value="{{key}}">{{value}}</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="row">
+                                                    <td class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-12 control-label col-form-label">{{phrase.Communication}}</label>
+                                                            <div class="col-sm-10">
+
+                                                                <div class="radio-list">
+                                                                    <label>
+                                                                        <input type="checkbox" name="comVia[]" value="mail" checklist-model="form.comVia"> {{phrase.mail}}
+                                                                    </label>
+                                                                </div>
+                                                                <div class="radio-list">
+                                                                    <label>
+                                                                        <input type="checkbox" name="comVia[]" value="sms" checklist-model="form.comVia"> {{phrase.sms}}
+                                                                    </label>
+                                                                </div>
+                                                                <div class="radio-list">
+                                                                    <label>
+                                                                        <input type="checkbox" name="comVia[]" value="phone" checklist-model="form.comVia"> {{phrase.phone}}
+                                                                    </label>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="col-md-6">
+
+                                                    </td>
+                                                </tr>
+
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">Date of Admission</label>
-                            <div class="col-sm-10">
-                                <input type="text"  date-picker name="doa" class="form-control datemask" ng-model="form.doa">
+                            <div class="form-group m-b-0" style="margin-top: 20px;">
+                                <div class="col-sm-12">
+                                    <button ng-click="changeView('list')" class="btn pull-right btn-danger card-block-input-item">{{phrase.cancelEdit}}</button>
+                                    <button type="submit" class="btn btn-info waves-effect waves-light">{{phrase.editStudent}}</button>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">Bank Name</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="bankName" class="form-control" ng-model="form.bankName">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">Account Holder Name</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="accountHolderName" class="form-control" ng-model="form.accountHolderName">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">Account Number</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="accountNumber" class="form-control" ng-model="form.accountNumber">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">IFSC Code</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="ifscCode" class="form-control" ng-model="form.ifscCode">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">Bank Branch</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="bankBranch" class="form-control" ng-model="form.bankBranch">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">Nationality</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="nationality" class="form-control" ng-model="form.nationality">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">Religion</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="religion" class="form-control" ng-model="form.religion">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">Caste</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="caste" class="form-control" ng-model="form.caste">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">Community</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="community" class="form-control" ng-model="form.community">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">Blood Group</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="bloodGroup" class="form-control" ng-model="form.bloodGroup">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">Personal Marks of Identification</label>
-                            <div class="col-sm-10">
-                                <textarea type="text" name="personalMarksIndentification" ng-model="form.personalMarksIndentification" class="form-control"></textarea>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">Medical History</label>
-                            <div class="col-sm-10">
-                                <textarea type="text" name="medicalHistory" ng-model="form.medicalHistory" class="form-control"></textarea>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">Class Admitted when joining School</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="classAdmitted" class="form-control" ng-model="form.classAdmitted">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">Courses Offered (Only for XI/XII standard)</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="courseOffered" class="form-control" ng-model="form.courseOffered">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">Subjects Offered</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="subjectsOffered" class="form-control" ng-model="form.subjectsOffered">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">Medium of Study</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="mediumStudy" class="form-control" ng-model="form.mediumStudy">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">EMIS Number</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="emisNumber" class="form-control" ng-model="form.emisNumber">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">TMR Code</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="tmrCode" class="form-control" ng-model="form.tmrCode">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">Register Number</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="registerNumber" class="form-control" ng-model="form.registerNumber">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 text-right control-label col-form-label">Secondary Phone Number</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="secondaryPhone" class="form-control" ng-model="form.secondaryPhone">
-                            </div>
-                        </div>
-                        <div class="form-group m-b-0">
-                            <div class="offset-sm-2 col-sm-10">
-                                <button type="submit" class="btn btn-info waves-effect waves-light" ng-disabled="editDorm.$invalid">{{phrase.editStudent}}</button>
-                            </div>
-                        </div>
-                    </form>
+                        </form>
+
+                    </div>
 
                 </div>
             </div>
@@ -1125,7 +1614,7 @@
                                 <div class="form-group col-md-2">
                                     <label class="control-label col-form-label">Register No.</label>
                                     <div>
-                                        <input required type="text" name="registerNumber" ng-model="transferInfo.data.registerNumber" class="col-sm-12 form-control">
+                                        <input required type="text" name="registerNo" ng-model="transferInfo.data.registerNo" class="col-sm-12 form-control">
                                     </div>
                                 </div>
                                 <div class="form-group col-md-2">
@@ -1137,7 +1626,7 @@
                                 <div class="form-group col-md-2">
                                     <label class="control-label col-form-label">EMIS No.</label>
                                     <div>
-                                        <input required type="text" name="emisNumber" ng-model="transferInfo.data.emisNumber" class="col-sm-12 form-control">
+                                        <input required type="text" name="emisNo" ng-model="transferInfo.data.emisNo" class="col-sm-12 form-control">
                                     </div>
                                 </div>
                             </div>
@@ -1202,13 +1691,13 @@
                                 <div class="form-group row">
                                     <label class="col-sm-3 text-right control-label col-form-label">Personal Marks of Identification</label>
                                     <div class="col-sm-9">
-                                        <textarea required type="text" name="personalMarksIndentification" ng-model="transferInfo.data.personalMarksIndentification" class="form-control"></textarea>
+                                        <textarea required type="text" name="identificationMarks" ng-model="transferInfo.data.identificationMarks" class="form-control"></textarea>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-3 text-right control-label col-form-label">Date if admission and standard in which he/she was admitted</label>
                                     <div class="col-sm-9">
-                                        <input required type="text" name="doa" ng-model="transferInfo.data.doa" date-picker class="form-control datemask">
+                                        <input required type="text" name="admissionDate" ng-model="transferInfo.data.admissionDate" date-picker class="form-control datemask">
                                     </div>
                                 </div>
                                 <div class="form-group row">
