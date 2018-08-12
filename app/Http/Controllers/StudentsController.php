@@ -220,6 +220,10 @@ class StudentsController extends Controller {
 			$toReturn['students'][] = array('id'=>$student['id'],"studentRollId"=>$student['studentRollId'],"fullName"=>$student['fullName'],"username"=>$student['username'],"adhar"=>$student['adhar'],"email"=>$student['email'],"isLeaderBoard"=>$student['isLeaderBoard'],"studentClass"=>isset($classArray[$student['studentClass']]) ? $classArray[$student['studentClass']] : "","studentSection"=>isset($sectionArray[$student['studentSection']]) ? $sectionArray[$student['studentSection']] : "");
 		}
 
+        $toReturn['community'] = \DB::table('community')->get(['id', 'name']);
+        $toReturn['courses'] = \DB::table('courses')->get(['id', 'name']);
+        $toReturn['subjects_offered'] = \DB::table('subjects_offered')->get(['id', 'name']);
+
 		return $toReturn;
 	}
 
