@@ -737,6 +737,9 @@ schoex.controller('studentsController', function(dataFactory,$rootScope,$scope,$
     $scope.importSections;
     $scope.medViewMode = true;
     $scope.searchInput = {};
+    $scope.community = {};
+    $scope.courses = {};
+    $scope.subjects_offered = {};
     var methodName = $route.current.methodName;
 
     $scope.listUsers = function(pageNumber){
@@ -749,6 +752,9 @@ schoex.controller('studentsController', function(dataFactory,$rootScope,$scope,$
             $scope.hostel = data.hostel ;
             $scope.totalItems = data.totalItems
             $scope.userRole = data.userRole;
+            $scope.community = data.community ;
+            $scope.courses = data.courses ;
+            $scope.subjects_offered = data.subjects_offered ;
             showHideLoad(true);
         });
     }
@@ -763,6 +769,9 @@ schoex.controller('studentsController', function(dataFactory,$rootScope,$scope,$
             $scope.hostel = data.hostel ;
             $scope.totalItems = data.totalItems
             $scope.userRole = data.userRole;
+            $scope.community = data.community ;
+            $scope.courses = data.courses ;
+            $scope.subjects_offered = data.subjects_offered ;
             showHideLoad(true);
         });
     }
@@ -785,6 +794,9 @@ schoex.controller('studentsController', function(dataFactory,$rootScope,$scope,$
             $scope.hostel = data.hostel ;
             $scope.totalItems = data.totalItems
             $scope.userRole = data.userRole;
+            $scope.community = data.community ;
+            $scope.courses = data.courses ;
+            $scope.subjects_offered = data.subjects_offered ;
             $rootScope.dashboardData.sort.students = sortBy;
             showHideLoad(true);
         });
