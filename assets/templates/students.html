@@ -640,16 +640,9 @@
                                                     <div class="form-group">
                                                         <label class="col-sm-12 control-label col-form-label">* Community</label>
                                                         <div class="col-sm-12">
-                                                            <select name="community" class="form-control" ng-model="form.community" required>
+                                                            <select class="form-control" name="community" ng-model="form.community" required>
                                                                 <option value="">Select Community</option>
-                                                                <option value="BC">BC</option>
-                                                                <option value="BCM">BCM</option>
-                                                                <option value="MBC">MBC</option>
-                                                                <option value="OC">OC</option>
-                                                                <option value="SC">SC</option>
-                                                                <option value="SCA">SCA</option>
-                                                                <option value="ST">ST</option>
-                                                                <option value="SS">SS</option>
+                                                                <option ng-repeat="commun in community" value="{{commun.name}}">{{commun.name}}</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -720,10 +713,9 @@
                                                     <div class="form-group">
                                                         <label class="col-sm-12 control-label col-form-label">Courses Offered (Only for XI/XII standard)</label>
                                                         <div class="col-sm-12">
-                                                            <select name="courseOffered" class="form-control" ng-model="form.courseOffered">
+                                                            <select class="form-control" name="courseOffered" ng-model="form.courseOffered">
                                                                 <option value="">Select Courses Offered</option>
-                                                                <option value="General Education">General Education</option>
-                                                                <option value="Vocational Education">Vocational Education</option>
+                                                                <option ng-repeat="course in courses" value="{{course.name}}">{{course.name}}</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -732,20 +724,9 @@
                                                     <div class="form-group">
                                                         <label class="col-sm-12 control-label col-form-label">Subjects Offered</label>
                                                         <div class="col-sm-12">
-                                                            <select name="subjectsOffered" class="form-control" ng-model="form.subjectsOffered">
+                                                            <select class="form-control" name="subjectsOffered" ng-model="form.subjectsOffered">
                                                                 <option value="">Select Subjects Offered</option>
-                                                                <option value="Physics | Chemistry | Statistics | Mathematics">Physics | Chemistry | Statistics | Mathematics</option>
-                                                                <option value="Physics | Chemistry | Comp.Science | Mathematics">Physics | Chemistry | Comp.Science | Mathematics</option>
-                                                                <option value="Physics | Chemistry | Biology | Mathematics">Physics | Chemistry | Biology | Mathematics</option>
-                                                                <option value="Physics | Chemistry | Bio-Chemistry | Mathematics">Physics | Chemistry | Bio-Chemistry | Mathematics</option>
-                                                                <option value="Physics | Chemistry | Mathematics | Home Science">Physics | Chemistry | Mathematics | Home Science</option>
-                                                                <option value="Physics | Chemistry | Biology | Comp.Science ">Physics | Chemistry | Biology | Comp.Science </option>
-                                                                <option value="Physics | Chemistry | Biology | Micro-Biology">Physics | Chemistry | Biology | Micro-Biology</option>
-                                                                <option value="Physics | Chemistry | Biology | Bio-Chemistry">Physics | Chemistry | Biology | Bio-Chemistry</option>
-                                                                <option value="Physics | Chemistry | Biology | Nursing">Physics | Chemistry | Biology | Nursing</option>
-                                                                <option value="Physics | Chemistry | Biology | Home Science">Physics | Chemistry | Biology | Home Science</option>
-                                                                <option value="Physics | Chemistry | Biology | Siddha">Physics | Chemistry | Biology | Siddha</option>
-                                                                <option value="Physics | Chemistry | Botany | Zoology">Physics | Chemistry | Botany | Zoology</option>
+                                                                <option ng-repeat="subjects_offer in subjects_offered" value="{{subjects_offer.name}}">{{subjects_offer.name}}</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -1181,18 +1162,10 @@
                                                     <td class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="col-sm-12 control-label col-form-label">* Community</label>
-                                                            <div class="col-sm-12">
-                                                                <select name="community" class="form-control" ng-model="form.community" required>
-                                                                    <option value="">Select Community</option>
-                                                                    <option value="BC">BC</option>
-                                                                    <option value="BCM">BCM</option>
-                                                                    <option value="MBC">MBC</option>
-                                                                    <option value="OC">OC</option>
-                                                                    <option value="SC">SC</option>
-                                                                    <option value="SCA">SCA</option>
-                                                                    <option value="ST">ST</option>
-                                                                    <option value="SS">SS</option>
-                                                                </select>
+                                                            <div class="col-sm-12"><select class="form-control" name="community" ng-model="form.community" required>
+                                                                <option value="">Select Community</option>
+                                                                <option ng-repeat="commun in community" value="{{commun.name}}">{{commun.name}}</option>
+                                                            </select>
                                                             </div>
                                                         </div>
                                                     </td>
@@ -1262,10 +1235,9 @@
                                                         <div class="form-group">
                                                             <label class="col-sm-12 control-label col-form-label">Courses Offered (Only for XI/XII standard)</label>
                                                             <div class="col-sm-12">
-                                                                <select name="courseOffered" class="form-control" ng-model="form.courseOffered">
+                                                                <select class="form-control" name="courseOffered" ng-model="form.courseOffered">
                                                                     <option value="">Select Courses Offered</option>
-                                                                    <option value="General Education">General Education</option>
-                                                                    <option value="Vocational Education">Vocational Education</option>
+                                                                    <option ng-repeat="course in courses" value="{{course.name}}">{{course.name}}</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -1274,21 +1246,11 @@
                                                         <div class="form-group">
                                                             <label class="col-sm-12 control-label col-form-label">Subjects Offered</label>
                                                             <div class="col-sm-12">
-                                                                <select name="subjectsOffered" class="form-control" ng-model="form.subjectsOffered">
+                                                                <select class="form-control" name="subjectsOffered" ng-model="form.subjectsOffered">
                                                                     <option value="">Select Subjects Offered</option>
-                                                                    <option value="Physics | Chemistry | Statistics | Mathematics">Physics | Chemistry | Statistics | Mathematics</option>
-                                                                    <option value="Physics | Chemistry | Comp.Science | Mathematics">Physics | Chemistry | Comp.Science | Mathematics</option>
-                                                                    <option value="Physics | Chemistry | Biology | Mathematics">Physics | Chemistry | Biology | Mathematics</option>
-                                                                    <option value="Physics | Chemistry | Bio-Chemistry | Mathematics">Physics | Chemistry | Bio-Chemistry | Mathematics</option>
-                                                                    <option value="Physics | Chemistry | Mathematics | Home Science">Physics | Chemistry | Mathematics | Home Science</option>
-                                                                    <option value="Physics | Chemistry | Biology | Comp.Science ">Physics | Chemistry | Biology | Comp.Science </option>
-                                                                    <option value="Physics | Chemistry | Biology | Micro-Biology">Physics | Chemistry | Biology | Micro-Biology</option>
-                                                                    <option value="Physics | Chemistry | Biology | Bio-Chemistry">Physics | Chemistry | Biology | Bio-Chemistry</option>
-                                                                    <option value="Physics | Chemistry | Biology | Nursing">Physics | Chemistry | Biology | Nursing</option>
-                                                                    <option value="Physics | Chemistry | Biology | Home Science">Physics | Chemistry | Biology | Home Science</option>
-                                                                    <option value="Physics | Chemistry | Biology | Siddha">Physics | Chemistry | Biology | Siddha</option>
-                                                                    <option value="Physics | Chemistry | Botany | Zoology">Physics | Chemistry | Botany | Zoology</option>
+                                                                    <option ng-repeat="subjects_offer in subjects_offered" value="{{subjects_offer.name}}">{{subjects_offer.name}}</option>
                                                                 </select>
+
                                                             </div>
                                                         </div>
                                                     </td>
