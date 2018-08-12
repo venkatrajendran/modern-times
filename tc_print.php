@@ -61,7 +61,7 @@
             <div class="card-block">
                 <div class="row col-12">
                     <div class="col-3">
-                        <img src="logo/logo.png" style="max-width: 100px;"/>
+                        <img src="logo/school-logo.png" style="max-width: 100px;"/>
                     </div>
                     <div class="col-6" style="text-align: center">
                         Government of Tamilnadu - Department of School Eduction, Chennai<br>
