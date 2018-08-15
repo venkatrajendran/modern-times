@@ -1066,22 +1066,36 @@ schoex.controller('studentsController', function(dataFactory,$rootScope,$scope,$
     $scope.transferRead = function(id){
         showHideLoad();
         dataFactory.httpRequest('index.php/students/transfer/'+id).then(function(data) {
-            $scope.transferInfo = {};
-            $scope.transferInfo.data = data;
-            $scope.transferInfo.userId = id;
-            $scope.changeView('transfer');
-            showHideLoad(true);
+            console.log(data);
+            if(data.status == "failed"){
+                alert(data.message)
+                $scope.changeView('list');
+                showHideLoad(true);
+            } else {
+                $scope.transferInfo = {};
+                $scope.transferInfo.data = data;
+                $scope.transferInfo.userId = id;
+                $scope.changeView('transfer');
+                showHideLoad(true);
+            }
         });
     }
 
     $scope.bonafideRead = function(id){
         showHideLoad();
         dataFactory.httpRequest('index.php/students/bonafide/'+id).then(function(data) {
-            $scope.bonafideInfo = {};
-            $scope.bonafideInfo.data = data;
-            $scope.bonafideInfo.userId = id;
-            $scope.changeView('bonafide');
-            showHideLoad(true);
+            if(data.status == "failed"){
+                alert(data.message)
+                $scope.changeView('list');
+                showHideLoad(true);
+            } else {
+                console.log(data);
+                $scope.bonafideInfo = {};
+                $scope.bonafideInfo.data = data;
+                $scope.bonafideInfo.userId = id;
+                $scope.changeView('bonafide');
+                showHideLoad(true);
+            }
         });
     }
 
