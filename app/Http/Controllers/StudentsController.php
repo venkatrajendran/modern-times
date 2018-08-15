@@ -220,6 +220,10 @@ class StudentsController extends Controller {
 			$toReturn['students'][] = array('id'=>$student['id'],"studentRollId"=>$student['studentRollId'],"fullName"=>$student['fullName'],"username"=>$student['username'],"adhar"=>$student['adhar'],"email"=>$student['email'],"isLeaderBoard"=>$student['isLeaderBoard'],"studentClass"=>isset($classArray[$student['studentClass']]) ? $classArray[$student['studentClass']] : "","studentSection"=>isset($sectionArray[$student['studentSection']]) ? $sectionArray[$student['studentSection']] : "");
 		}
 
+        $toReturn['community'] = \DB::table('community')->get(['id', 'name']);
+        $toReturn['courses'] = \DB::table('courses')->get(['id', 'name']);
+        $toReturn['subjects_offered'] = \DB::table('subjects_offered')->get(['id', 'name']);
+
 		return $toReturn;
 	}
 
@@ -581,10 +585,10 @@ class StudentsController extends Controller {
 			$User->comVia = json_encode(\Input::get('comVia'));
 		}
 		$User->isLeaderBoard = "";
-        $User->doa = \Input::get('doa');
+        $User->admissionDate = \Input::get('admissionDate');
         $User->bankName = \Input::get('bankName');
         $User->accountHolderName = \Input::get('accountHolderName');
-        $User->accountNumber = \Input::get('accountNumber');
+        $User->accountNo = \Input::get('accountNo');
         $User->ifscCode = \Input::get('ifscCode');
         $User->bankBranch = \Input::get('bankBranch');
         $User->nationality = \Input::get('nationality');
@@ -592,16 +596,16 @@ class StudentsController extends Controller {
         $User->caste = \Input::get('caste');
         $User->community = \Input::get('community');
         $User->bloodGroup = \Input::get('bloodGroup');
-        $User->personalMarksIndentification = \Input::get('personalMarksIndentification');
+        $User->identificationMarks = \Input::get('identificationMarks');
         $User->medicalHistory = \Input::get('medicalHistory');
         $User->classAdmitted = \Input::get('classAdmitted');
         $User->courseOffered = \Input::get('courseOffered');
         $User->subjectsOffered = \Input::get('subjectsOffered');
         $User->mediumStudy = \Input::get('mediumStudy');
-        $User->emisNumber = \Input::get('emisNumber');
+        $User->emisNo = \Input::get('emisNo');
         $User->tmrCode = \Input::get('tmrCode');
-        $User->registerNumber = \Input::get('registerNumber');
-        $User->secondaryPhone = \Input::get('secondaryPhone');
+        $User->registerNo = \Input::get('registerNo');
+        $User->secondaryPhoneNo = \Input::get('secondaryPhoneNo');
 
 		$User->save();
 
@@ -715,10 +719,10 @@ class StudentsController extends Controller {
 		if(\Input::has('comVia')){
 			$User->comVia = json_encode(\Input::get('comVia'));
 		}
-		$User->doa =\Input::get('doa');
+		$User->admissionDate =\Input::get('admissionDate');
         $User->bankName = \Input::get('bankName');
         $User->accountHolderName = \Input::get('accountHolderName');
-        $User->accountNumber = \Input::get('accountNumber');
+        $User->accountNo = \Input::get('accountNo');
         $User->ifscCode = \Input::get('ifscCode');
         $User->bankBranch = \Input::get('bankBranch');
         $User->nationality = \Input::get('nationality');
@@ -726,16 +730,16 @@ class StudentsController extends Controller {
         $User->caste = \Input::get('caste');
         $User->community = \Input::get('community');
         $User->bloodGroup = \Input::get('bloodGroup');
-        $User->personalMarksIndentification = \Input::get('personalMarksIndentification');
+        $User->identificationMarks = \Input::get('identificationMarks');
         $User->medicalHistory = \Input::get('medicalHistory');
         $User->classAdmitted = \Input::get('classAdmitted');
         $User->courseOffered = \Input::get('courseOffered');
         $User->subjectsOffered = \Input::get('subjectsOffered');
         $User->mediumStudy = \Input::get('mediumStudy');
-        $User->emisNumber = \Input::get('emisNumber');
+        $User->emisNo = \Input::get('emisNo');
         $User->tmrCode = \Input::get('tmrCode');
-        $User->registerNumber = \Input::get('registerNumber');
-        $User->secondaryPhone = \Input::get('secondaryPhone');
+        $User->registerNo = \Input::get('registerNo');
+        $User->secondaryPhoneNo = \Input::get('secondaryPhoneNo');
 		$User->save();
 
 		if(\Input::has('academicYear')){
@@ -797,9 +801,14 @@ class StudentsController extends Controller {
 
     function transfer($id){
         if($this->data['users']->role != "admin") exit;
-        $parent = \User::where('role','parent')->Where('parentOf', 'like', '%"id":"' . $id . '"%')->first()->toArray();
+        $parent = \User::where('role','parent')->Where('parentOf', 'like', '%"id":"' . $id . '"%')->first();
 
+        if(empty($parent)){
+            return $this->panelInit->apiOutput(false,'Transfer Certificate', 'The Student must be linked to Parent before generating TC. Please add Parent and link the Student');
+        }
+        $parent = \User::where('role','parent')->Where('parentOf', 'like', '%"id":"' . $id . '"%')->first()->toArray();
         $user = \User::where('id',$id)->first()->toArray();
+
 
         $class = \classes::where('id',$user['studentClass'])->first()->toArray();
 
@@ -834,6 +843,11 @@ class StudentsController extends Controller {
 
     function bonafide($id){
         if($this->data['users']->role != "admin") exit;
+        $parent = \User::where('role','parent')->Where('parentOf', 'like', '%"id":"' . $id . '"%')->first();
+
+        if(empty($parent)){
+            return $this->panelInit->apiOutput(false,'Bonafide Certificate', 'The Student must be linked to Parent before generating bonafide. Please add Parent and link the Student');
+        }
         $parent = \User::where('role','parent')->Where('parentOf', 'like', '%"id":"' . $id . '"%')->first()->toArray();
 
         $user = \User::where('id',$id)->first()->toArray();
@@ -1365,7 +1379,7 @@ class StudentsController extends Controller {
 	                          </tr>
 	                          <tr>
 	                              <td>Date of Admission</td>
-	                              <td>".$data['doa']."</td>
+	                              <td>".$data['admissionDate']."</td>
 	                          </tr>
 	                          <tr>
 	                              <td>Bank Name</td>
@@ -1377,7 +1391,7 @@ class StudentsController extends Controller {
 	                          </tr>
 	                          <tr>
 	                              <td>Account Number</td>
-	                              <td>".$data['accountNumber']."</td>
+	                              <td>".$data['accountNo']."</td>
 	                          </tr>
 	                          <tr>
 	                              <td>IFSC Code</td>
@@ -1409,7 +1423,7 @@ class StudentsController extends Controller {
 	                          </tr>
 	                          <tr>
 	                              <td>Personal Marks of Identification</td>
-	                              <td>".$data['personalMarksIndentification']."</td>
+	                              <td>".$data['identificationMarks']."</td>
 	                          </tr>
 	                          <tr>
 	                              <td>Medical History</td>
@@ -1433,7 +1447,7 @@ class StudentsController extends Controller {
 	                          </tr>
 	                          <tr>
 	                              <td>EMIS Number</td>
-	                              <td>".$data['emisNumber']."</td>
+	                              <td>".$data['emisNo']."</td>
 	                          </tr>
 	                          <tr>
 	                              <td>TMR Code</td>
@@ -1441,11 +1455,11 @@ class StudentsController extends Controller {
 	                          </tr>
 	                          <tr>
 	                              <td>Register Number</td>
-	                              <td>".$data['registerNumber']."</td>
+	                              <td>".$data['registerNo']."</td>
 	                          </tr>
 	                          <tr>
 	                              <td>Secondary Phone Number</td>
-	                              <td>".$data['secondaryPhone']."</td>
+	                              <td>".$data['secondaryPhoneNo']."</td>
 	                          </tr>
 	                          </tbody></table>";
 		}else{
