@@ -737,6 +737,9 @@ schoex.controller('studentsController', function(dataFactory,$rootScope,$scope,$
     $scope.importSections;
     $scope.medViewMode = true;
     $scope.searchInput = {};
+    $scope.community = {};
+    $scope.courses = {};
+    $scope.subjects_offered = {};
     var methodName = $route.current.methodName;
 
     $scope.listUsers = function(pageNumber){
@@ -749,6 +752,9 @@ schoex.controller('studentsController', function(dataFactory,$rootScope,$scope,$
             $scope.hostel = data.hostel ;
             $scope.totalItems = data.totalItems
             $scope.userRole = data.userRole;
+            $scope.community = data.community ;
+            $scope.courses = data.courses ;
+            $scope.subjects_offered = data.subjects_offered ;
             showHideLoad(true);
         });
     }
@@ -763,6 +769,9 @@ schoex.controller('studentsController', function(dataFactory,$rootScope,$scope,$
             $scope.hostel = data.hostel ;
             $scope.totalItems = data.totalItems
             $scope.userRole = data.userRole;
+            $scope.community = data.community ;
+            $scope.courses = data.courses ;
+            $scope.subjects_offered = data.subjects_offered ;
             showHideLoad(true);
         });
     }
@@ -785,6 +794,9 @@ schoex.controller('studentsController', function(dataFactory,$rootScope,$scope,$
             $scope.hostel = data.hostel ;
             $scope.totalItems = data.totalItems
             $scope.userRole = data.userRole;
+            $scope.community = data.community ;
+            $scope.courses = data.courses ;
+            $scope.subjects_offered = data.subjects_offered ;
             $rootScope.dashboardData.sort.students = sortBy;
             showHideLoad(true);
         });
@@ -889,6 +901,7 @@ schoex.controller('studentsController', function(dataFactory,$rootScope,$scope,$
     }
 
     $scope.saveAdd = function(content){
+        console.log($scope.form);
         response = apiResponse(content,'add');
         if(content.status == "success"){
             showHideLoad();
@@ -936,6 +949,7 @@ schoex.controller('studentsController', function(dataFactory,$rootScope,$scope,$
     }
 
     $scope.saveEdit = function(content){
+        console.log($scope.form);
         response = apiResponse(content,'edit');
         if(content.status == "success"){
             showHideLoad();
@@ -1049,6 +1063,28 @@ schoex.controller('studentsController', function(dataFactory,$rootScope,$scope,$
         });
     }
 
+    $scope.transferRead = function(id){
+        showHideLoad();
+        dataFactory.httpRequest('index.php/students/transfer/'+id).then(function(data) {
+            $scope.transferInfo = {};
+            $scope.transferInfo.data = data;
+            $scope.transferInfo.userId = id;
+            $scope.changeView('transfer');
+            showHideLoad(true);
+        });
+    }
+
+    $scope.bonafideRead = function(id){
+        showHideLoad();
+        dataFactory.httpRequest('index.php/students/bonafide/'+id).then(function(data) {
+            $scope.bonafideInfo = {};
+            $scope.bonafideInfo.data = data;
+            $scope.bonafideInfo.userId = id;
+            $scope.changeView('bonafide');
+            showHideLoad(true);
+        });
+    }
+
     $scope.changeView = function(view){
         if(view == "add" || view == "list" || view == "show"){
             $scope.form = {};
@@ -1064,6 +1100,8 @@ schoex.controller('studentsController', function(dataFactory,$rootScope,$scope,$
         $scope.views.reviewImport = false;
         $scope.views.medical = false;
         $scope.views.grad = false;
+        $scope.views.transfer = false;
+        $scope.views.bonafide = false;
         $scope.views[view] = true;
     }
 });
