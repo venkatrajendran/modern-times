@@ -1644,7 +1644,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-sm-3 text-right control-label col-form-label">Date of Birth as entered in the admission register is figures and words</label>
+                                    <label class="col-sm-3 text-right control-label col-form-label">Date of Birth as entered in the admission register in figures and words</label>
                                     <div class="col-sm-9">
                                         <input required type="text" name="birthday" ng-model="transferInfo.data.birthday" date-picker class="form-control datemask">
                                     </div>
@@ -1657,7 +1657,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-sm-3 text-right control-label col-form-label">Date if admission and standard in which he/she was admitted</label>
+                                    <label class="col-sm-3 text-right control-label col-form-label">Date in admission and standard in which he/she was admitted</label>
                                     <div class="col-sm-9">
                                         <input required type="text" name="admissionDate" ng-model="transferInfo.data.admissionDate" date-picker class="form-control datemask">
                                     </div>
@@ -1677,13 +1677,13 @@
                                 <div class="form-group row">
                                     <label class="col-sm-3 text-right control-label col-form-label">In the case of General Education the subjects offered under Part III Group A & Meduim of instruction</label>
                                     <div class="col-sm-9">
-                                        <input required type="text" name="offeredGroupA" ng-model="transferInfo.data.subjectsOffered" class="form-control">
+                                        <input type="text" name="offeredGroupA" ng-model="transferInfo.data.subjectsOffered" class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-3 text-right control-label col-form-label">In the case of Vocational Education, the Vocational subject under Part III Group B and the related subject offered under Part III Group A</label>
                                     <div class="col-sm-9">
-                                        <input required type="text" name="offeredGroupB" ng-model="transferInfo.data.subjectsVocational" class="form-control">
+                                        <input type="text" name="offeredGroupB" ng-model="transferInfo.data.subjectsVocational" class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -1772,6 +1772,7 @@
                                 </div>
                                 <input type="hidden" name="photo" ng-model="transferInfo.data.photo" value="{{transferInfo.data.photo}}" class="form-control">
                                 <input type="hidden" name="schoolzipcode" ng-model="transferInfo.data.schoolzipcode" value="{{transferInfo.data.schoolzipcode}}" class="form-control">
+                                <input type="hidden" name="classAdmitted" value="{{transferInfo.data.classAdmitted}}" class="form-control">
                                 <div class="form-group row">
                                     <label class="col-sm-3 text-right control-label col-form-label"></label>
                                     <div class="col-sm-9">
@@ -1843,7 +1844,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 text-right control-label col-form-label">Section</label>
                                 <div class="col-sm-9">
-                                    <input required type="text" name="studentStudied" ng-model="bonafideInfo.data.studentSection" class="form-control">
+                                    <input required type="text" name="studentSection" ng-model="bonafideInfo.data.studentSection" class="form-control">
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -1868,6 +1869,8 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 text-right control-label col-form-label"></label>
                                 <div class="col-sm-9">
+                                    <input type="hidden" name="gender" value="{{bonafideInfo.data.gender}}" class="form-control">
+                                    <input type="hidden" name="sex" value="{{bonafideInfo.data.sex}}" class="form-control">
                                     <button type="submit" class="btn btn-primary pull-right">Print</button>
                                     <a ng-click="changeView('list')" class="btn pull-right btn-danger card-block-input-item">{{phrase.Return}}</a>
                                 </div>
