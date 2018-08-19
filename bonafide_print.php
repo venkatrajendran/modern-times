@@ -74,7 +74,7 @@
                 </div>
                 <div class="row">
                     <div class="col-12">
-                        <p class="text-justify">This is to certify that Selvan <u><?php echo $_REQUEST['fullName']; ?></u> S/o, <u><?php echo $_REQUEST['parent']; ?></u> is a bonafide student of our Hr. Sec. School. He is studying in  <u><?php echo $_REQUEST['studentClass']; ?></u> standard  <u><?php echo $_REQUEST['studentSection']; ?></u> section in the academic year ( <?php echo $_REQUEST['academic']; ?>). He belongs to  <u><?php echo $_REQUEST['community']; ?></u> Community. His date of birth is <u><?php echo $_REQUEST['birthday']; ?></u></p>
+                        <p class="text-justify">This is to certify that Selvan/Selvi <u><?php echo $_REQUEST['fullName']; ?></u> S/o, <u><?php echo $_REQUEST['parent']; ?></u> is a bonafide student of our Hr. Sec. School. <?php echo ucfirst($_REQUEST['gender']); ?> is studying in  <u><?php echo $_REQUEST['studentStudied']; ?></u> standard  <u><?php echo $_REQUEST['studentSection']; ?></u> section in the academic year ( <?php echo $_REQUEST['academic']; ?>). <?php echo ucfirst($_REQUEST['gender']); ?> belongs to  <u><?php echo $_REQUEST['community']; ?></u> Community. <?php echo ucfirst($_REQUEST['sex']); ?> date of birth is <u><?php echo $_REQUEST['birthday']; ?></u></p>
                     </div>
                 </div>
             </div>
