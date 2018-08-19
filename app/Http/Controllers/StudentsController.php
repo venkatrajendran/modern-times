@@ -801,9 +801,14 @@ class StudentsController extends Controller {
 
     function transfer($id){
         if($this->data['users']->role != "admin") exit;
-        $parent = \User::where('role','parent')->Where('parentOf', 'like', '%"id":"' . $id . '"%')->first()->toArray();
+        $parent = \User::where('role','parent')->Where('parentOf', 'like', '%"id":"' . $id . '"%')->first();
 
+        if(empty($parent)){
+            return $this->panelInit->apiOutput(false,'Transfer Certificate', 'The Student must be linked to Parent before generating TC. Please add Parent and link the Student');
+        }
+        $parent = \User::where('role','parent')->Where('parentOf', 'like', '%"id":"' . $id . '"%')->first()->toArray();
         $user = \User::where('id',$id)->first()->toArray();
+
 
         $class = \classes::where('id',$user['studentClass'])->first()->toArray();
 
@@ -826,18 +831,25 @@ class StudentsController extends Controller {
         $user['academic'] = (date('Y')-2).' - '.(date('y')-1).' & '.(date('Y')-1).' - '.date('y');
         $user['tcno'] = "TC".$id;
         $user['mediumInstruction'] = $user['mediumStudy'];
-        $user['subjectsVocational'] = $user['subjectsOffered'];
+        $user['subjectsVocational'] = (strtolower($user['courseOffered']) != 'general education')?$user['subjectsOffered']:'';
+        $user['subjectsOffered'] = (strtolower($user['courseOffered']) == 'general education')?$user['subjectsOffered']:'';
         $user['languagePart1'] = $user['mediumStudy'];
         $user['mediumofStudy'] = $user['mediumStudy'];
         $user['medical'] = 'YES FIRST TIME';
         $user['nationality'] = $user['nationality'].' '.$user['religion'];
         $user['community'] = 'Refer Community Certificate Issued By Revenue Authorities';
+        $user['sex'] = (strtolower($user['gender']) == 'female')?'he':'she';
         return $user;
 
     }
 
     function bonafide($id){
         if($this->data['users']->role != "admin") exit;
+        $parent = \User::where('role','parent')->Where('parentOf', 'like', '%"id":"' . $id . '"%')->first();
+
+        if(empty($parent)){
+            return $this->panelInit->apiOutput(false,'Bonafide Certificate', 'The Student must be linked to Parent before generating bonafide. Please add Parent and link the Student');
+        }
         $parent = \User::where('role','parent')->Where('parentOf', 'like', '%"id":"' . $id . '"%')->first()->toArray();
 
         $user = \User::where('id',$id)->first()->toArray();
@@ -856,6 +868,9 @@ class StudentsController extends Controller {
         $user['studentSection'] = $section['sectionName'];
         $user['academic'] = (date('Y')-1).' - '.date('Y');
         $user['community'] = $user['community'];
+        $user['sex'] = (strtolower($user['gender']) == 'female')?'her':'his';
+        $user['gender'] = (strtolower($user['gender']) == 'female')?'she':'he';
+
 
         return $user;
 
