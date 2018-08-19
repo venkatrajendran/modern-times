@@ -69,7 +69,7 @@
                         (Appendix 5, Chapter III, Rule 34, T.N.E. Rules)<br>
                         (Recognized by the Director of School Education Chennai)
                     </div>
-                    <div class="col-3"><?php if(trim($_REQUEST['photo']) != "") { ?><img class="pull-right" src="uploads/profile/<?php echo $_REQUEST['photo']; ?>"><?php } ?> </div>
+                    <div class="col-3"><?php if(trim($_REQUEST['photo']) != "") { ?><img class="pull-right" src="uploads/profile/<?php echo $_REQUEST['photo']; ?>" style="max-width: 100px;"><?php } ?> </div>
                 </div>
                 <div class="row col-12">
                     <table class="table">
@@ -187,7 +187,7 @@
                 </div>
                 <div class="row col-12">
                     <div class="col-1" style="text-align: center">9</div>
-                    <div class="col-4">Date of admission and standard in which he was admitted</div>
+                    <div class="col-4">Date of admission and standard in which <?php echo (strtolower($_REQUEST['gender']) == 'male')?'he':'she'; ?> was admitted</div>
                     <div class="col-1" style="text-align: center">:</div>
                     <div class="col-6"><?php echo strtoupper($_REQUEST['admissionDate']); ?>; <?php echo strtoupper($_REQUEST['studentStudied']); ?></div>
                 </div>
@@ -289,7 +289,7 @@
                         <tr>
                             <td class="font-weight-bold"><?php echo $_REQUEST['schoolname']; ?></td>
                             <td class="font-weight-bold"><?php echo $_REQUEST['academic']; ?></td>
-                            <td class="font-weight-bold"><?php echo $_REQUEST['studentStudied']; ?></td>
+                            <td class="font-weight-bold"><?php echo $_REQUEST['classAdmitted'].'-'.$_REQUEST['studentStudied']; ?></td>
                             <td class="font-weight-bold"><?php echo $_REQUEST['firstLanguage']; ?></td>
                             <td class="font-weight-bold"><?php echo $_REQUEST['mediumInstruction']; ?></td>
                         </tr>
@@ -308,7 +308,7 @@
                     <div class="col-1"> </div>
                     <div class="col-11">2. Should be signed in ink by the Head of institution, who will be held responsible for the correctness of the entires.</div>
                 </div>
-                <div class="row col-12 font-weight-bold" style="margin-top: 20px; text-align: center">
+                <div class="col-12 font-weight-bold" style="margin-top: 20px; text-align: center">
                     <u>DECLARATION BY THE PARENT OR GUARDIAN</u>
                 </div>
                 <div class="row col-12" style="margin-bottom: 50px">
