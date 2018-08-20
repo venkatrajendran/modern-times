@@ -51,6 +51,9 @@
 
         border-top: 0px !important;
     }
+        table thead th, .table th {
+        width: 16% !important;
+    }
 </style>
 </head>
 <body>
