@@ -220,6 +220,10 @@ class StudentsController extends Controller {
 			$toReturn['students'][] = array('id'=>$student['id'],"studentRollId"=>$student['studentRollId'],"fullName"=>$student['fullName'],"username"=>$student['username'],"adhar"=>$student['adhar'],"email"=>$student['email'],"isLeaderBoard"=>$student['isLeaderBoard'],"studentClass"=>isset($classArray[$student['studentClass']]) ? $classArray[$student['studentClass']] : "","studentSection"=>isset($sectionArray[$student['studentSection']]) ? $sectionArray[$student['studentSection']] : "");
 		}
 
+        $toReturn['community'] = \DB::table('community')->get(['id', 'name']);
+        $toReturn['courses'] = \DB::table('courses')->get(['id', 'name']);
+        $toReturn['subjects_offered'] = \DB::table('subjects_offered')->get(['id', 'name']);
+
 		return $toReturn;
 	}
 
@@ -581,6 +585,28 @@ class StudentsController extends Controller {
 			$User->comVia = json_encode(\Input::get('comVia'));
 		}
 		$User->isLeaderBoard = "";
+        $User->admissionDate = \Input::get('admissionDate');
+        $User->bankName = \Input::get('bankName');
+        $User->accountHolderName = \Input::get('accountHolderName');
+        $User->accountNo = \Input::get('accountNo');
+        $User->ifscCode = \Input::get('ifscCode');
+        $User->bankBranch = \Input::get('bankBranch');
+        $User->nationality = \Input::get('nationality');
+        $User->religion = \Input::get('religion');
+        $User->caste = \Input::get('caste');
+        $User->community = \Input::get('community');
+        $User->bloodGroup = \Input::get('bloodGroup');
+        $User->identificationMarks = \Input::get('identificationMarks');
+        $User->medicalHistory = \Input::get('medicalHistory');
+        $User->classAdmitted = \Input::get('classAdmitted');
+        $User->courseOffered = \Input::get('courseOffered');
+        $User->subjectsOffered = \Input::get('subjectsOffered');
+        $User->mediumStudy = \Input::get('mediumStudy');
+        $User->emisNo = \Input::get('emisNo');
+        $User->tmrCode = \Input::get('tmrCode');
+        $User->registerNo = \Input::get('registerNo');
+        $User->secondaryPhoneNo = \Input::get('secondaryPhoneNo');
+
 		$User->save();
 
 		if (\Input::hasFile('photo')) {
@@ -693,6 +719,27 @@ class StudentsController extends Controller {
 		if(\Input::has('comVia')){
 			$User->comVia = json_encode(\Input::get('comVia'));
 		}
+		$User->admissionDate =\Input::get('admissionDate');
+        $User->bankName = \Input::get('bankName');
+        $User->accountHolderName = \Input::get('accountHolderName');
+        $User->accountNo = \Input::get('accountNo');
+        $User->ifscCode = \Input::get('ifscCode');
+        $User->bankBranch = \Input::get('bankBranch');
+        $User->nationality = \Input::get('nationality');
+        $User->religion = \Input::get('religion');
+        $User->caste = \Input::get('caste');
+        $User->community = \Input::get('community');
+        $User->bloodGroup = \Input::get('bloodGroup');
+        $User->identificationMarks = \Input::get('identificationMarks');
+        $User->medicalHistory = \Input::get('medicalHistory');
+        $User->classAdmitted = \Input::get('classAdmitted');
+        $User->courseOffered = \Input::get('courseOffered');
+        $User->subjectsOffered = \Input::get('subjectsOffered');
+        $User->mediumStudy = \Input::get('mediumStudy');
+        $User->emisNo = \Input::get('emisNo');
+        $User->tmrCode = \Input::get('tmrCode');
+        $User->registerNo = \Input::get('registerNo');
+        $User->secondaryPhoneNo = \Input::get('secondaryPhoneNo');
 		$User->save();
 
 		if(\Input::has('academicYear')){
@@ -751,6 +798,83 @@ class StudentsController extends Controller {
 
 		return $this->panelInit->apiOutput(true,"Save medical info","Medical history updated");
 	}
+
+    function transfer($id){
+        if($this->data['users']->role != "admin") exit;
+        $parent = \User::where('role','parent')->Where('parentOf', 'like', '%"id":"' . $id . '"%')->first();
+
+        if(empty($parent)){
+            return $this->panelInit->apiOutput(false,'Transfer Certificate', 'The Student must be linked to Parent before generating TC. Please add Parent and link the Student');
+        }
+        $parent = \User::where('role','parent')->Where('parentOf', 'like', '%"id":"' . $id . '"%')->first()->toArray();
+        $user = \User::where('id',$id)->first()->toArray();
+
+
+        $class = \classes::where('id',$user['studentClass'])->first()->toArray();
+
+        $user['schoolname'] = \config('school.name');
+        $user['schooladdress'] = \config('school.address');
+        $user['schoolcity'] = \config('school.city');
+        $user['schoolzipcode'] = \config('school.zipcode');
+        $user['revenuedistrict'] = \config('school.revenuedistrict');
+        $user['certificate'] = "Refer Original Certificate";
+        $user['birthday'] = $this->panelInit->unix_to_date($user['birthday']);
+        $user['parent'] = $parent['fullName'];
+        $user['studentClass'] = $class['className'];
+        $user['qualified'] = 'PROMOTED';
+        $user['duefee'] = '-';
+        $user['scholarship'] = '-';
+        $user['conduct'] = 'GOOD';
+        $user['left'] = date('d/m/Y');
+        $user['applicationdate'] = date('d/m/Y');
+        $user['datetc'] = date('d/m/Y');
+        $user['academic'] = (date('Y')-2).' - '.(date('y')-1).' & '.(date('Y')-1).' - '.date('y');
+        $user['tcno'] = "TC".$id;
+        $user['mediumInstruction'] = $user['mediumStudy'];
+        $user['subjectsVocational'] = (strtolower($user['courseOffered']) != 'general education')?$user['subjectsOffered']:'';
+        $user['subjectsOffered'] = (strtolower($user['courseOffered']) == 'general education')?$user['subjectsOffered']:'';
+        $user['languagePart1'] = $user['mediumStudy'];
+        $user['mediumofStudy'] = $user['mediumStudy'];
+        $user['medical'] = 'YES FIRST TIME';
+        $user['nationality'] = $user['nationality'].' '.$user['religion'];
+        $user['community'] = 'Refer Community Certificate Issued By Revenue Authorities';
+        $user['sex'] = (strtolower($user['gender']) == 'female')?'he':'she';
+        return $user;
+
+    }
+
+    function bonafide($id){
+        if($this->data['users']->role != "admin") exit;
+        $parent = \User::where('role','parent')->Where('parentOf', 'like', '%"id":"' . $id . '"%')->first();
+
+        if(empty($parent)){
+            return $this->panelInit->apiOutput(false,'Bonafide Certificate', 'The Student must be linked to Parent before generating bonafide. Please add Parent and link the Student');
+        }
+        $parent = \User::where('role','parent')->Where('parentOf', 'like', '%"id":"' . $id . '"%')->first()->toArray();
+
+        $user = \User::where('id',$id)->first()->toArray();
+
+        $class = \classes::where('id',$user['studentClass'])->first()->toArray();
+
+        $section = \sections::where('id',$user['studentSection'])->first()->toArray();
+
+        $user['schoolname'] = \config('school.name');
+        $user['schooladdress'] = \config('school.address');
+        $user['schoolcity'] = \config('school.city') .' - '. \config('school.zipcode');
+
+        $user['birthday'] = $this->panelInit->unix_to_date($user['birthday']);
+        $user['parent'] = $parent['fullName'];
+        $user['studentClass'] = $class['className'];
+        $user['studentSection'] = $section['sectionName'];
+        $user['academic'] = (date('Y')-1).' - '.date('Y');
+        $user['community'] = $user['community'];
+        $user['sex'] = (strtolower($user['gender']) == 'female')?'her':'his';
+        $user['gender'] = (strtolower($user['gender']) == 'female')?'she':'he';
+
+
+        return $user;
+
+    }
 
 	function marksheet($id){
 		if($id == 0){
@@ -1258,7 +1382,90 @@ class StudentsController extends Controller {
 								  }
 			$return['content'] .= "</td>
 	                          </tr>
-
+	                          <tr>
+	                              <td>Date of Admission</td>
+	                              <td>".$data['admissionDate']."</td>
+	                          </tr>
+	                          <tr>
+	                              <td>Bank Name</td>
+	                              <td>".$data['bankName']."</td>
+	                          </tr>
+	                          <tr>
+	                              <td>Account Holder Name</td>
+	                              <td>".$data['accountHolderName']."</td>
+	                          </tr>
+	                          <tr>
+	                              <td>Account Number</td>
+	                              <td>".$data['accountNo']."</td>
+	                          </tr>
+	                          <tr>
+	                              <td>IFSC Code</td>
+	                              <td>".$data['ifscCode']."</td>
+	                          </tr>
+	                          <tr>
+	                              <td>Bank Branch</td>
+	                              <td>".$data['bankBranch']."</td>
+	                          </tr>
+	                          <tr>
+	                              <td>Nationality</td>
+	                              <td>".$data['nationality']."</td>
+	                          </tr>
+	                          <tr>
+	                              <td>Religion</td>
+	                              <td>".$data['religion']."</td>
+	                          </tr>
+	                          <tr>
+	                              <td>Caste</td>
+	                              <td>".$data['caste']."</td>
+	                          </tr>
+	                          <tr>
+	                              <td>Community</td>
+	                              <td>".$data['community']."</td>
+	                          </tr>
+	                          <tr>
+	                              <td>Blood Group</td>
+	                              <td>".$data['bloodGroup']."</td>
+	                          </tr>
+	                          <tr>
+	                              <td>Personal Marks of Identification</td>
+	                              <td>".$data['identificationMarks']."</td>
+	                          </tr>
+	                          <tr>
+	                              <td>Medical History</td>
+	                              <td>".$data['medicalHistory']."</td>
+	                          </tr>
+	                          <tr>
+	                              <td>Class Admitted when joining School</td>
+	                              <td>".$data['classAdmitted']."</td>
+	                          </tr>
+	                          <tr>
+	                              <td>Courses Offered (Only for XI/XII standard)</td>
+	                              <td>".$data['courseOffered']."</td>
+	                          </tr>
+	                          <tr>
+	                              <td>Subjects Offered</td>
+	                              <td>".$data['subjectsOffered']."</td>
+	                          </tr>
+	                          <tr>
+	                              <td>Medium of Study</td>
+	                              <td>".$data['mediumStudy']."</td>
+	                          </tr>
+	                          <tr>
+	                              <td>EMIS Number</td>
+	                              <td>".$data['emisNo']."</td>
+	                          </tr>
+	                          <tr>
+	                              <td>TMR Code</td>
+	                              <td>".$data['tmrCode']."</td>
+	                          </tr>
+	                          <tr>
+	                              <td>Register Number</td>
+	                              <td>".$data['registerNo']."</td>
+	                          </tr>
+	                          <tr>
+	                              <td>Secondary Phone Number</td>
+	                              <td>".$data['secondaryPhoneNo']."</td>
+	                          </tr>
 	                          </tbody></table>";
 		}else{
 			$return['title'] = "Student deleted ";
